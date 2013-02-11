@@ -1,0 +1,5 @@
+name = Green Travel
+description = Green Travel.
+package = Green Project
+core = 7.x
+

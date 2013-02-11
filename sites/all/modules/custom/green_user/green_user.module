@@ -1,0 +1,87 @@
+<?php
+
+/**
+ * @file
+ */
+
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function green_user_form_user_profile_form_alter(&$form, &$form_state) {
+  // Get the main profile node form.
+  global $user;
+  if ($user->uid > 0) {
+    module_load_include('inc', 'user', 'user.pages');
+  }
+}
+
+
+/**
+ * Implements hook_user_view_alter().
+ */
+function green_user_user_view_alter(&$build) {
+  global $user; 
+ 
+  // Convertion user name string to url with pathauto
+  if (module_exists('pathauto')) {
+      module_load_include('inc', 'pathauto', 'pathauto');
+      $name =  pathauto_cleanstring($user->name);        
+  }
+  // Deleting history information
+  if (isset($build['summary'])) {
+      unset($build['summary']);
+  }
+   $build['alimentation'] = array(
+    '#type' => 'link',
+    '#title' => t('Alimentation'),
+    '#href' => 'alimentation/'.$name,
+    '#weight' => -20,
+  );
+   
+  $build['travel'] = array(
+    '#type' => 'link',
+    '#title' => t('Déplacements'),
+    '#href' => 'travel/'.$name,
+    '#weight' => -15,
+  );
+   
+  $build['user_picture']['#title'] = t('user picture');
+   
+  $build['email'] = array(
+    '#type' => 'user_profile_item',
+    '#title' => t('Email'),
+    '#markup' => $user->mail,
+    '#weight' => -9,
+  );  
+
+}
+
+/**
+ * Implémente hook_menu_local_tasks_alter().
+ */
+function green_user_menu_local_tasks_alter(&$data, $router_item, $root_path) {
+ // Add a menu local task to user page
+ global $user;
+ if ($root_path == 'user/%') {  
+    // Clean the user name string into a url
+    //module_load_include('module', 'pathauto', 'pathauto');
+    if (module_exists('pathauto')) {
+         module_load_include('inc', 'pathauto', 'pathauto');
+         $name =  pathauto_cleanstring($user->name);        
+    } 
+   
+    $item = menu_get_item('alimentation/'.$name);
+    if ($item['access']) {
+      $data['actions']['output'][] = array(
+        '#theme' => 'menu_local_task',
+        '#link' => $item,
+      );
+    }
+    
+  }
+}
+
+
+
+

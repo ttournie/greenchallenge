@@ -1,0 +1,77 @@
+<?php
+
+/**
+ * @file
+ */
+
+/**
+ * Implements hook_permission().
+ */
+function green_travel_permission() {
+  return array(
+    'create travel profile' => array(
+      'title' => t('Create travel profile'),
+      'description' => t('Allow users to add/modify travel profile.'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_menu().
+ */
+function green_travel_menu() {
+  $items['profile/travel/edit'] = array(
+    'type' => MENU_NORMAL_ITEM,
+    'title' => 'Mes Déplacements',
+    'page callback' => 'green_travel_page',
+    'page arguments' => array('deplacements'),
+    'access arguments' => array('create travel profile'),
+    'file' => 'green_travel.pages.inc',
+  );
+ 
+  return $items;
+}
+
+// Calculate the travel score
+function green_travel_score($node){        
+    $score = 0;
+    // Diet type field
+    if(isset($node['field_type_de_vehicule'])) {
+        switch($node['field_type_de_vehicule']['#items'][0]['value']) {
+            case t('Aucun/Vélo') : 
+                $score += 30;
+                break;
+            case t('Transports en commun') : 
+                $score += 10;
+                break;
+            case t('Scooter') : 
+                $score += 5;
+                break;
+            case t('Moto') : 
+                $score += 0;
+                break;
+            case t('Voiture') : 
+                $score += 0;
+                break;
+        }
+    }
+    return $score;
+}
+
+
+/**
+ * Implements hook_user_view_alter().
+ */
+function green_travel_node_view_alter(&$build) {
+  // Testing the node type
+  if($build['#bundle'] == 'deplacements') {
+      $score = green_travel_score($build);
+      $build['text'] = array(
+      '#markup' => '<p class="dashboard-text"> Score : ' . $score . '</p>',
+      '#weight' => -10,
+      );
+  }
+}
+
+
+

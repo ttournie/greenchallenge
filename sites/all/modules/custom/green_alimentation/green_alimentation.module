@@ -1,0 +1,85 @@
+<?php
+
+/**
+ * @file
+ */
+
+/**
+ * Implements hook_permission().
+ */
+function green_alimentation_permission() {
+  return array(
+    'create alimentation profile' => array(
+      'title' => t('Create alimentation profile'),
+      'description' => t('Allow users to add/modify alimentation profile.'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_menu().
+ */
+function green_alimentation_menu() {
+  $items['profile/alimentation/edit'] = array(
+    'type' => MENU_NORMAL_ITEM,
+    'title' => 'Mon Alimentation',
+    'page callback' => 'green_alimentation_page',
+    'page arguments' => array('alimentation'),
+    'access arguments' => array('create alimentation profile'),
+    'file' => 'green_alimentation.pages.inc',
+  );
+ 
+  return $items;
+}
+
+// Calculate the alimentation score
+function green_alimentation_score($node){        
+    $score = 0;
+    // Diet type field
+    if(isset($node['field_type_de_regime'])) {
+        switch($node['field_type_de_regime']['#items'][0]['value']) {
+            case 'Végétarien' : 
+                $score += 30;
+                break;
+            case 'Végétalien' : 
+                $score += 50;
+                break;
+        }
+    }
+    // Fish consumption 
+    if(isset($node['field_conso_poissons'])) {
+        switch($node['field_conso_poissons']['#items'][0]['value']) {
+            case '1' : 
+                $score += 14;
+                break;
+            case '2' : 
+                $score += 10;
+                break;
+            case '3' : 
+                $score += 6;
+                break;
+            case '4' : 
+                $score += 2;
+                break;
+        }
+    }
+    return $score;
+}
+
+
+/**
+ * Implements hook_user_view_alter().
+ */
+function green_alimentation_node_view_alter(&$build) {
+  // Testing the node type
+  if($build['#bundle'] == 'alimentation') {
+      $score = green_alimentation_score($build);
+      $build['text'] = array(
+      '#markup' => '<p class="dashboard-text"> Score : ' . $score . '</p>',
+      '#weight' => -10,
+      );
+  }
+}
+
+
+

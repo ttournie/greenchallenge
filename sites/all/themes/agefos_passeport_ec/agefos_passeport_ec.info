@@ -1,0 +1,11 @@
+
+name = AGEFOS Passeport experts comptables
+description = The AGEFOS Passeport experts comptables theme.
+package = AGEFOS Passeport experts-comptables
+version = 1.0
+core = 7.x
+
+stylesheets[all][] = css/layout.css
+stylesheets[all][] = css/style.css
+stylesheets[all][] = css/form.css
+stylesheets[print][] = css/print.css

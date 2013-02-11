@@ -1,0 +1,393 @@
+/*
+    Document   : layout
+    Created on : 24 sept. 2012, 16:52:52
+    Author     : Samuel Hurel <shurel@ideia.fr>
+    Description:
+        AGEFOS Passeport experts-comptables layout.
+*/
+
+/* ---------- Basic Layout Styles ----------- */
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+* {
+  font-family: Helvetica;
+}
+
+body {
+  background-attachment: fixed;
+
+  /* IE 7 */
+  background: #1d3243;
+
+  /* Safari 4-5, Chrome 1-9 */
+  /* Can't specify a percentage size? Laaaaaame. */
+  background: -webkit-gradient(radial, center center, 0, center center, 460, from(#5c798b), to(#1d3243));
+
+  /* Safari 5.1+, Chrome 10+ */
+  background: -webkit-radial-gradient(circle, #5c798b, #1d3243);
+
+  /* Firefox 3.6+ */
+  background: -moz-radial-gradient(circle, #5c798b, #1d3243);
+
+  /* IE 10 */
+  background: -ms-radial-gradient(circle, #5c798b, #1d3243);
+
+  /* Opera */
+  background-image: -o-linear-gradient(-90deg,#5c798b,#1d3243);
+
+}
+
+body.admin-menu {
+  margin-top: 36px !important;
+}
+
+body.admin-menu #admin-menu {
+  font-size: 9px;
+  font-family: "lucida grande", tahoma, verdana, arial, sans-serif;
+}
+
+#footer {
+  width: 950px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#page-wrapper {
+  width: 950px;
+  height: 100%;
+  min-height: 100%;
+  margin: 16px auto 0;
+  padding: 28px 36px 0;
+  background: url('../images/page-bg.jpg') no-repeat left top;
+}
+
+#page {
+
+}
+
+#breadcrumb {
+  width: 730px;
+}
+
+div.breadcrumb,
+div.breadcrumb a,
+div.breadcrumb b{
+  color: #9c9c94;
+  font-size: 12px;
+}
+
+.messages {
+  width: 688px;
+}
+
+/* ---------- Header ----------- */
+
+#header {
+  height: 130px;
+  position: relative;
+  margin: 0 0 100px 0;
+}
+
+#header #site-logo {
+  background-color: #fff;
+  text-align: center;
+  padding-top: 15px;
+  position: absolute;
+  top: 0;
+  left: 2px;
+  width: 181px;
+  height: 113px;
+  overflow: hidden;
+}
+
+#header #site-slogan {
+  position: absolute;
+  top: 0;
+  left: 185px;
+  height: 38px;
+  line-height: 38px;
+  font-size: 12px;
+  text-transform: uppercase;
+  font-weight: bolder;
+  padding: 0 10px;
+  color: #fff;
+}
+
+#header #navigation {
+  position: absolute;
+  top: 38px;
+  left: 184px;
+  width: 766px;
+  height: 90px;
+  background-color: #fff;
+}
+
+#header div#logout{
+  position: absolute;
+  top: 10px;
+  left: 827px;
+}
+
+#header div#logout a{
+  color: #e73a95;
+}
+
+#header div#logout a:hover{
+  color:black;
+}
+
+/* Dropdown menu styles */
+.block-nice-menus.contextual-links-region {
+  height: 90px;
+}
+
+ul.nice-menu {
+  display: block;
+  margin: 10px 0;
+}
+
+ul.nice-menu li {
+  float: left;
+  display: block;
+  width: 180px;
+  height: 30px;
+  line-height: 30px;
+  margin: 0 0 5px 60px;
+  background-color: #fff;
+  border: none;
+}
+
+ul.nice-menu li a:active {
+  border-bottom: 5px;
+}
+
+ul.nice-menu li.border a {
+  border-bottom: solid 1px #9c9c94;
+}
+
+ul.nice-menu li.border a:hover {
+  border-bottom: solid 3px #a10d59;
+}
+
+ul.nice-menu-down li.menuparent,
+ul.nice-menu-down li.menuparent:hover {
+  background-color: #fff;
+  background: none;
+  z-index: 3000;
+  position: relative
+}
+
+ul.nice-menu li.menuparent ul {
+  z-index: 1000;
+}
+
+ul.nice-menu-down li {
+  border-top: none;
+}
+
+ul.nice-menu-down li a,
+ul.nice-menu-down li.menuparent a {
+  font-family: 'Droid Sans', sans-serif;
+  font-weight: bold;
+  text-decoration: none;
+  color: #496357;
+  padding: 8px 10px 8px 0;
+  background: url('../images/navigation-item-bg.png') no-repeat right 6px;
+  text-transform: uppercase;
+  font-size: 12px;
+  display:inline;
+}
+ul.nice-menu-down a:hover,
+ul.nice-menu-down li.menuparent a:hover {
+  background-position-y: -55px;
+  color: #a10d59;
+}
+
+ul.nice-menu-down ul li {
+  margin: 0;
+  background-color: gray;
+  border-top: solid 1px #fff;
+  width: 11.5em;
+  padding-left: 5px;
+}
+
+ul.nice-menu-down .menuparent ul li a {
+  background-image: none;
+  color: #fff;
+  border-bottom: 0;
+  padding-right: 0;
+}
+
+ul.nice-menu-down .menuparent ul li a:hover {
+  border-bottom: 0;
+  color: #a10d59;
+}
+
+/* ---------- Page titles ----------- */
+
+h1#page-section-title {
+  color: #fff;
+  padding: 0 10px;
+  margin: 9px 0;
+  display: block;
+  height: 38px;
+  line-height: 38px;
+  width: auto;
+  font-size: 20px;
+  text-transform: uppercase;
+  background-color: #9c9c94;
+  width: 420px
+}
+
+h2#page-subsection-title {
+
+}
+
+h3#page-title {
+  color: #949494;
+  padding: 0 0 0 80px;
+  font-size: 18px;
+  font-family: 'Droid Sans', sans-serif;
+  font-weight: bold;
+}
+
+/* ---------- Main ----------- */
+
+#main-wrapper {
+  padding: 10px;
+  background-color: #fff;
+  min-height: 600px;
+  position: relative;
+}
+
+#main {
+}
+
+/* ---------- Sidebar ----------- */
+#content,
+#sidebar-first,
+#sidebar-second {
+  display: inline;
+  float: left; /* LTR */
+  position: relative;
+}
+
+#sidebar-second {
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+#sidebar-first,
+#sidebar-second {
+  width: 200px;
+}
+
+.one-sidebar #content {
+  width: 730px;
+}
+.two-sidebars #content {
+  width: 530px;
+}
+.no-sidebars #content {
+  width: 930px;
+  float: none;
+}
+
+/* ---------- Footer ----------- */
+
+#footer {
+  width: 950px;
+  margin: 15px auto 0;
+  background-color: #fff;
+}
+
+#footer #block-menu-menu-footer {
+  text-align: center;
+  padding-top: 1px;
+}
+
+#footer #block-menu-menu-footer ul li {
+  list-style-type: none;
+  list-style-image: none;
+  margin: 0;
+  padding: 0;
+  display: inline;
+  height: 12px;
+  line-height: 12px;
+}
+
+#footer #block-menu-menu-footer ul.menu {
+  text-align: center;
+}
+#footer #block-menu-menu-footer ul li a,
+#footer #block-menu-menu-footer ul li a:visited {
+  text-decoration: none;
+  color: #5d798b;
+  font-size: 12px;
+  padding: 0 14px 0 10px;
+  border-right: 1px solid #5d798b;
+}
+#footer #block-menu-menu-footer ul li.last a {
+  border-right: none;
+}
+
+/* ---------- Popup layout ----------- */
+
+div.modal-forms-modal-content .popups-close,
+div.modal-forms-modal-content .popups-close:hover {
+  background: url('../images/close_popup.png') 0px no-repeat;
+}
+
+div.modal-forms-modal-content .popups-container {
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+}
+/* ---------- Front page layout ----------- */
+body.front #page-wrapper {
+  width: 950px;
+  margin: 16px auto;
+  padding: 28px 36px;
+  background: url('../images/page-front-bg.png') no-repeat left top;
+  position: relative;
+}
+
+body.front #header {
+  margin-bottom: 550px;
+}
+
+body.front #main-wrapper {
+  background: transparent;
+  color: #fff;
+  position: absolute;
+  top: 386px;
+  left: 527px;
+  width: 289px;
+  font-size: 12px;
+}
+body.front #main-wrapper p {
+  margin: 0;
+}
+
+body.front div.messages{
+  position: absolute;
+  top: 170px;
+  left: 36px;
+  width: 888px;
+}
+
+body.front #content{
+  float:none;
+}
+
+body.front #footer {
+  margin: 0 auto;
+  background-color: transparent;
+  position: relative;
+}

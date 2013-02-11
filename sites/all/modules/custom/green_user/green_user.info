@@ -1,0 +1,6 @@
+name = Green User
+description = Green User functionalities.
+package = Green Project
+core = 7.x
+dependencies[] = pathauto
+
