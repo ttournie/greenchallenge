@@ -32,10 +32,9 @@ function green_travel_menu() {
   return $items;
 }
 
-// Calculate the travel score
-function green_travel_score($node){        
+function green_travel_green_user_score($node){
     $score = 0;
-    // Diet type field
+    // Vehicule type field
     if(isset($node['field_type_de_vehicule'])) {
         switch($node['field_type_de_vehicule']['#items'][0]['value']) {
             case t('Aucun/Vélo') : 
@@ -58,14 +57,14 @@ function green_travel_score($node){
     return $score;
 }
 
-
 /**
  * Implements hook_user_view_alter().
  */
 function green_travel_node_view_alter(&$build) {
   // Testing the node type
+      //dsm(menu_get_object());
   if($build['#bundle'] == 'deplacements') {
-      $score = green_travel_score($build);
+      $score = green_travel_green_user_score($build);
       $build['text'] = array(
       '#markup' => '<p class="dashboard-text"> Score : ' . $score . '</p>',
       '#weight' => -10,
