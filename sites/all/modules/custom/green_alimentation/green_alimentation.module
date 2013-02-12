@@ -28,7 +28,15 @@ function green_alimentation_menu() {
     'access arguments' => array('create alimentation profile'),
     'file' => 'green_alimentation.pages.inc',
   );
- 
+  
+  $items['profile/alimentation/%'] = array(
+    'type' => MENU_LOCAL_TASK,
+    'title' => 'Mon Alimentation',
+    'page callback' => 'green_alimentation_page_view',
+    'page arguments' => array(2),
+    'file' => 'green_alimentation.pages.inc',
+    'access callback' => TRUE,
+  );
   return $items;
 }
 
