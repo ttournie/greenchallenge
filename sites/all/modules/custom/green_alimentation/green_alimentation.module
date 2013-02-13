@@ -29,14 +29,15 @@ function green_alimentation_menu() {
     'file' => 'green_alimentation.pages.inc',
   );
   
-  $items['profile/alimentation/%'] = array(
+  $items['alimentation/%'] = array(
     'type' => MENU_LOCAL_TASK,
     'title' => 'Mon Alimentation',
     'page callback' => 'green_alimentation_page_view',
-    'page arguments' => array(2),
+    'page arguments' => array(1),
     'file' => 'green_alimentation.pages.inc',
     'access callback' => TRUE,
   );
+  
   return $items;
 }
 
@@ -87,6 +88,10 @@ function green_alimentation_node_view_alter(&$build) {
       '#weight' => -10,
       );
   }
+}
+
+function green_alimentation_username_converte($string){
+    
 }
 
 
