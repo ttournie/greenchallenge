@@ -41,10 +41,9 @@ function green_alimentation_page($node_type) {
  */
 function green_alimentation_page_view($user_name) {
     
-  dsm(current_path());
-  dsm(token_replace('[user:name]', array($user_name)));
-  dsm(menu_get_item('profile/alimentation/'.$user_name));
-    global $user;
+  preg_replace('#+#', ' ', $user_name);
+  dsm($user_name);
+  global $user;
 
   // Search for an existing travel for the current user.
   $query = new EntityFieldQuery();

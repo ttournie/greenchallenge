@@ -34,8 +34,8 @@ function green_user_form_user_register_form_alter(&$form, &$form_state) {
  * Username register validation
  */
 function green_user_register_form_validate($form, &$form_state) {
-    // If the username have a . charater an error is set
-    if (preg_match('#.|\'#',$form_state['values']['name'])) {
+    // If the username have a . ou ' charater an error is set
+    if (preg_match("/'|\./",$form_state['values']['name'])) {
     form_set_error('name', t('Il y a un charactère interdit dans votre nom d\'utilisateur.'));
   }
 }
