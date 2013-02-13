@@ -69,7 +69,7 @@ function green_alimentation_page_view($user_name) {
     $node = node_load(reset($results['node'])->nid);
   }
 
-  // Return the node's form (which is basically the same for creating/editing).
+  // Return the node's view
   module_load_include('inc', 'node', 'node.pages');
 
   $build = array();

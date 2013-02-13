@@ -1,0 +1,6 @@
+name = Green Global
+description = Green Global functionalities.
+package = Green Project
+core = 7.x
+dependencies[] = pathauto
+

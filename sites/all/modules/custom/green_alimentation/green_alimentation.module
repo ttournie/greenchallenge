@@ -37,7 +37,7 @@ function green_alimentation_menu() {
     'file' => 'green_alimentation.pages.inc',
     'access callback' => TRUE,
   );
-  
+   
   return $items;
 }
 
@@ -56,8 +56,11 @@ function green_alimentation_green_user_score($node){
         }
     }
     // Fish consumption 
-    if(isset($node['field_conso_poissons'])) {
+    if(isset($node['field_conso_poissons'])) {        
         switch($node['field_conso_poissons']['#items'][0]['value']) {
+            case '0' :
+                $score += 20;
+                break;
             case '1' : 
                 $score += 14;
                 break;
@@ -82,17 +85,17 @@ function green_alimentation_green_user_score($node){
 function green_alimentation_node_view_alter(&$build) {
   // Testing the node type
   if($build['#bundle'] == 'alimentation') {
+      $path = current_path();
+      $path = drupal_get_path_alias($path);
+      $arrayPath = explode('/', $path);
+      $username=$arrayPath[1];
+      
       $score = green_alimentation_green_user_score($build);
+      $link = green_user_link_menu($username);
+      dsm($link);
       $build['text'] = array(
       '#markup' => '<p class="dashboard-text"> Score : ' . $score . '</p>',
       '#weight' => -10,
       );
   }
 }
-
-function green_alimentation_username_converte($string){
-    
-}
-
-
-
