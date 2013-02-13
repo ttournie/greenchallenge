@@ -40,12 +40,18 @@ function green_alimentation_page($node_type) {
  * Page callback for travel page.
  */
 function green_alimentation_page_view($user_name) {
-    
-  preg_replace('#+#', ' ', $user_name);
-  dsm($user_name);
-  global $user;
+  // Replacemente of underscors
+  $user_name = str_replace('_',' ',$user_name);
 
-  // Search for an existing travel for the current user.
+  // Search the user withe the username
+  $user = user_load_by_name($user_name);
+  
+  // If the username does not exist
+  if(!$user) {
+    return t('Aucun utilisateur ne correspond à ce nom');
+  }
+  $node_type = 'alimentation';
+  // Search for an existing alimentation for the current user.
   $query = new EntityFieldQuery();
   $results = $query->entityCondition('entity_type', 'node')
       ->entityCondition('bundle', $node_type)
@@ -53,16 +59,11 @@ function green_alimentation_page_view($user_name) {
       ->propertyCondition('uid', $user->uid)
       ->execute();
 
-
+  // If the user has no alimentation node yet
   if (empty($results['node'])) {
-    // Create an empty node typed accordingly to user's role.
-    $node = (object) array(
-      'uid' => $user->uid,
-      'name' => (isset($user->name) ? $user->name : ''),
-      'type' => $node_type,
-      'language' => LANGUAGE_NONE,
-    );
+     return t($user->name.' n\'a pas encore renseigné cette section');
   }
+  
   else {
     // Load the user's alimentation node.
     $node = node_load(reset($results['node'])->nid);
