@@ -90,12 +90,15 @@ function green_alimentation_node_view_alter(&$build) {
       $arrayPath = explode('/', $path);
       $username=$arrayPath[1];
       
-      $score = green_alimentation_green_user_score($build);
+      // We build the menu for the current username
       $link = green_user_link_menu($username);
-      dsm($link);
+      
+      // Calculate and display the score
+      $score = green_alimentation_green_user_score($build);
       $build['text'] = array(
       '#markup' => '<p class="dashboard-text"> Score : ' . $score . '</p>',
       '#weight' => -10,
       );
+      $build = array_merge($build,$link);
   }
 }

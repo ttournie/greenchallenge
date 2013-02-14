@@ -44,24 +44,8 @@ function green_user_register_form_validate($form, &$form_state) {
  * Implements hook_menu().
  */
 function green_user_menu() {
-  $items['profile/%'] = array(
-    'title' => 'Profil',
-    'page callback' => 'green_user_page',
-    'page arguments' => array(1),
-    'access callback' => TRUE,
-    'type' => MENU_DEFAULT_LOCAL_TASK,
-    'file' => 'green_user.pages.inc',
-  );
   
-  $items['user/%/alimentation'] = array(
-    'title' => 'Profil',
-    'page callback' => 'green_user_page',
-    'page arguments' => array(1),
-    'access callback' => TRUE,
-    'type' => MENU_DEFAULT_LOCAL_TASK,
-    'file' => 'green_user.pages.inc',
-  );
-     
+
   return $items;
 }
 
@@ -83,61 +67,16 @@ function green_user_user_view_alter(&$build) {
   if (isset($build['summary'])) {
       unset($build['summary']);
   }
-  // Get the current url with the alias
-  $urlToken = token_replace('[current-page:url]');
-  $url = explode('/',$urlToken);
-  // Get the username to build the right link
-  $userName = $url[5];
-   $build['ul1'] = array(
-    '#markup' => '<ul><li>'.l(t('Alimentation'),'alimentation/'.$userName).'</li></ul>',
-    '#weight' => -10,
-  );
-   
-   $build['profile'] = array(
-    '#type' => 'link',
-    '#title' => t('Profile'),
-    '#href' => 'users/'.$userName,
-    '#weight' => -20,
-  );
-        
-   $build['alimentation'] = array(
-    '#type' => 'link',
-    '#title' => t('Alimentation'),
-    '#href' => 'alimentation/'.$userName,
-    '#weight' => -20,
-  );
-   
-  $build['travel'] = array(
-    '#type' => 'link',
-    '#title' => t('Déplacements'),
-    '#href' => 'travel/'.$userName,
-    '#weight' => -15,
-  );
-   
+  
+  $path = current_path();
+  $path = drupal_get_path_alias($path);
+  $arrayPath = explode('/', $path);
+  $username=$arrayPath[1];
+      
+  $link = green_user_link_menu($username);
+  
   $build['user_picture']['#title'] = t('user picture');
-    
-}
-
-/**
- * Implémente hook_menu_local_tasks_alter().
- */
-function green_user_menu_local_tasks_alter(&$data, $router_item, $root_path) {
-
- // Ajouter un lien d'action pour 'node/add' sur la page 'admin/content'.
- if ($root_path == 'user/%') {
-    // Get the current url with the alias
-    $urlToken = token_replace('[current-page:url]');
-    $url = explode('/',$urlToken);
-    // Get the username to build the right link
-    $userName = $url[5];
-    $item = menu_get_item('profile/alimentation/'.$userName);
-    if ($item['access']) {
-      $data['actions']['output'][] = array(
-        '#theme' => 'menu_local_task',
-        '#link' => $item,
-      );
-    }
-  }
+  $build = array_merge($build,$link);
 }
 
 /**
@@ -149,6 +88,15 @@ function green_user_link_menu($username) {
   $build['ul'] = array(
     '#markup' => '<ul>',
     '#weight' => -999,
+  );
+  
+  $build['profil'] = array(
+    '#type' => 'link',
+    '#title' => t('Profil'),
+    '#href' => 'users/'.$username,
+    '#weight' => -810,
+    '#prefix' => '<li>',
+    '#suffix' => '</li>',
   );
     
   $build['alimentation'] = array(
