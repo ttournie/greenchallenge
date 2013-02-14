@@ -30,7 +30,6 @@ function green_travel_page($node_type) {
 
   // Return the node's form (which is basically the same for creating/editing).
   module_load_include('inc', 'node', 'node.pages');
-
   $build = array();
   $build['form'] = drupal_get_form($node->type . '_node_form', $node);
   return $build;
