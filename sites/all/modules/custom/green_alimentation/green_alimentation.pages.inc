@@ -40,10 +40,10 @@ function green_alimentation_page($node_type) {
  * Page callback for travel page.
  */
 function green_alimentation_page_view($user_name) {
-  // Replacemente of underscors
+  // Replacement of underscors
   $user_name = str_replace('_',' ',$user_name);
 
-  // Search the user withe the username
+  // Search the user with the username
   $user = user_load_by_name($user_name);
   
   // If the username does not exist

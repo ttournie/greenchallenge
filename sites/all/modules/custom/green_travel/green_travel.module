@@ -28,6 +28,15 @@ function green_travel_menu() {
     'access arguments' => array('create travel profile'),
     'file' => 'green_travel.pages.inc',
   );
+  
+  $items['travel/%'] = array(
+    'type' => MENU_LOCAL_TASK,
+    'title' => 'Déplacements',
+    'page callback' => 'green_travel_page_view',
+    'page arguments' => array(1),
+    'file' => 'green_travel.pages.inc',
+    'access callback' => TRUE,
+  );
  
   return $items;
 }

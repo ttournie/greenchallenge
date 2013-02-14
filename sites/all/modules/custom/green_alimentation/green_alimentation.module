@@ -31,7 +31,7 @@ function green_alimentation_menu() {
   
   $items['alimentation/%'] = array(
     'type' => MENU_LOCAL_TASK,
-    'title' => 'Mon Alimentation',
+    'title' => 'Alimentation',
     'page callback' => 'green_alimentation_page_view',
     'page arguments' => array(1),
     'file' => 'green_alimentation.pages.inc',

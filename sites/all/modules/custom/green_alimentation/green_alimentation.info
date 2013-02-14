@@ -2,4 +2,4 @@ name = Green Alimentation
 description = Green Alimentation.
 package = Green Project
 core = 7.x
-
+dependencies[] = Green User
