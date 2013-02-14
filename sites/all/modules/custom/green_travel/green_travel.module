@@ -43,6 +43,11 @@ function green_travel_menu() {
 
 function green_travel_green_user_score($user_name){      
   $user = user_load_by_name($user_name); 
+  
+  if(!$user) {
+      return false;
+  }
+  
   $node_type = 'travel';
   // Search for an existing alimentation for the current user.
   $query = new EntityFieldQuery();

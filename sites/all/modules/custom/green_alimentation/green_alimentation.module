@@ -46,6 +46,11 @@ function green_alimentation_menu() {
  */
 function green_alimentation_green_user_score($user_name){      
   $user = user_load_by_name($user_name); 
+  
+  if(!$user) {
+      return false;
+  }
+  
   $node_type = 'alimentation';
   // Search for an existing alimentation for the current user.
   $query = new EntityFieldQuery();
