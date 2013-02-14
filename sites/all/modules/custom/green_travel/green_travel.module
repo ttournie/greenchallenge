@@ -101,10 +101,7 @@ function green_travel_node_view_alter(&$build) {
       $path = current_path();
       $path = drupal_get_path_alias($path);
       $arrayPath = explode('/', $path);
-      $username=$arrayPath[1];
-      // Replacement of underscors
-      $username = str_replace('_',' ',$username);
-      
+      $username=$arrayPath[1];      
       // We build the menu for the current username
       $link = green_user_link_menu($username);
       

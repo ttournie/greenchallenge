@@ -65,8 +65,6 @@ function green_user_user_view_alter(&$build) {
   $arrayPath = explode('/', $path);
   $username=$arrayPath[1];
   
-  // Replacement of underscors
-  $username = str_replace('_',' ',$username);
   
   $link = green_user_link_menu($username);
   $score = green_user_score($username);
