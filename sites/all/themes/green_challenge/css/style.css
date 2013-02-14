@@ -1648,3 +1648,18 @@ div.admin-panel .description {
 #footer-wrapper .poll .bar .foreground {
   background-color: #ddd;
 }
+
+/*---Profil Menu---*/
+ul.profil {
+    list-style: none;
+    display: block;
+}
+
+ul.profil li {
+    float:left;
+    margin-left : 10px;
+}
+
+p.score {
+    clear: both;
+}

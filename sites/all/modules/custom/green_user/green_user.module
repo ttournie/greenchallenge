@@ -70,7 +70,7 @@ function green_user_user_view_alter(&$build) {
   $score = green_user_score($username);
   
   $build['text'] = array(
-      '#markup' => '<p class="dashboard-text"> Score Global : ' . $score . '</p>',
+      '#markup' => '<p class="score"> Score Global : ' . $score . '</p>',
       '#weight' => -10,
       );
   
@@ -85,7 +85,7 @@ function green_user_link_menu($username) {
   $build=array();  
   
   $build['ul'] = array(
-    '#markup' => '<ul>',
+    '#markup' => '<ul class="profil">',
     '#weight' => -999,
   );
   

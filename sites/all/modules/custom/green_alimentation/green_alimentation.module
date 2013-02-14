@@ -124,7 +124,7 @@ function green_alimentation_node_view_alter(&$build) {
       // Calculate and display the score
       $score = green_alimentation_green_user_score($username);
       $build['text'] = array(
-      '#markup' => '<p class="dashboard-text"> Score : ' . $score . '</p>',
+      '#markup' => '<p class="score"> Score : ' . $score . '</p>',
       '#weight' => -10,
       );
       $build = array_merge($build,$link);
