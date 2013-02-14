@@ -71,9 +71,8 @@ function green_alimentation_page_view($user_name) {
 
   // Return the node's view
   module_load_include('inc', 'node', 'node.pages');
+  node_view($node);
 
-  $build = array();
-  $build['form'] = drupal_get_form($node->type . '_node_form', $node);
-  return $build;
+  return  node_view($node);;
   
 }
