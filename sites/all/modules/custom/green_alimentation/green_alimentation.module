@@ -41,12 +41,35 @@ function green_alimentation_menu() {
   return $items;
 }
 
-// Calculate the alimentation score
-function green_alimentation_green_user_score($node){        
-    $score = 0;
+/**
+ * Implements hook_green_user_score().
+ */
+function green_alimentation_green_user_score($user_name){      
+  $user = user_load_by_name($user_name); 
+  $node_type = 'alimentation';
+  // Search for an existing alimentation for the current user.
+  $query = new EntityFieldQuery();
+  $results = $query->entityCondition('entity_type', 'node')
+      ->entityCondition('bundle', $node_type)
+      ->propertyCondition('status', TRUE)
+      ->propertyCondition('uid', $user->uid)
+      ->execute();
+
+  // If the user has no alimentation node yet
+  if (empty($results['node'])) {
+     return false;
+  }
+  
+  else {
+    // Load the user's alimentation node.
+    $node = node_load(reset($results['node'])->nid);
+  }
+  
+  $score = 0;
+    
     // Diet type field
-    if(isset($node['field_type_de_regime'])) {
-        switch($node['field_type_de_regime']['#items'][0]['value']) {
+    if(isset($node->field_type_de_regime)) {
+        switch($node->field_type_de_regime['und'][0]['value']) {
             case 'Végétarien' : 
                 $score += 30;
                 break;
@@ -56,8 +79,8 @@ function green_alimentation_green_user_score($node){
         }
     }
     // Fish consumption 
-    if(isset($node['field_conso_poissons'])) {        
-        switch($node['field_conso_poissons']['#items'][0]['value']) {
+    if(isset($node->field_conso_poissons)) {        
+        switch($node->field_conso_poissons['und'][0]['value']) {
             case '0' :
                 $score += 20;
                 break;
@@ -78,7 +101,6 @@ function green_alimentation_green_user_score($node){
     return $score;
 }
 
-
 /**
  * Implements hook_user_view_alter().
  */
@@ -94,7 +116,7 @@ function green_alimentation_node_view_alter(&$build) {
       $link = green_user_link_menu($username);
       
       // Calculate and display the score
-      $score = green_alimentation_green_user_score($build);
+      $score = green_alimentation_green_user_score($username);
       $build['text'] = array(
       '#markup' => '<p class="dashboard-text"> Score : ' . $score . '</p>',
       '#weight' => -10,

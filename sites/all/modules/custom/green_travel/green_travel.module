@@ -41,11 +41,30 @@ function green_travel_menu() {
   return $items;
 }
 
-function green_travel_green_user_score($node){
-    $score = 0;
+function green_travel_green_user_score($user_name){      
+  $user = user_load_by_name($user_name); 
+  $node_type = 'travel';
+  // Search for an existing alimentation for the current user.
+  $query = new EntityFieldQuery();
+  $results = $query->entityCondition('entity_type', 'node')
+      ->entityCondition('bundle', $node_type)
+      ->propertyCondition('status', TRUE)
+      ->propertyCondition('uid', $user->uid)
+      ->execute();
+
+  // If the user has no alimentation node yet
+  if (empty($results['node'])) {
+     return false;
+  }
+  
+  else {
+    // Load the user's alimentation node.
+    $node = node_load(reset($results['node'])->nid);
+  }
+  $score = 0;
     // Vehicule type field
-    if(isset($node['field_type_de_vehicule'])) {
-        switch($node['field_type_de_vehicule']['#items'][0]['value']) {
+    if(isset($node->field_type_de_vehicule)) {
+        switch($node->field_type_de_vehicule['und'][0]['value']) {
             case t('Aucun/Vélo') : 
                 $score += 30;
                 break;
@@ -64,6 +83,7 @@ function green_travel_green_user_score($node){
         }
     }
     return $score;
+  
 }
 
 /**
@@ -71,7 +91,7 @@ function green_travel_green_user_score($node){
  */
 function green_travel_node_view_alter(&$build) {
   // Testing the node type
-  if($build['#bundle'] == 'deplacements') {
+  if($build['#bundle'] == 'travel') {
       $path = current_path();
       $path = drupal_get_path_alias($path);
       $arrayPath = explode('/', $path);
@@ -81,7 +101,7 @@ function green_travel_node_view_alter(&$build) {
       $link = green_user_link_menu($username);
       
       // Calculate and display the score
-      $score = green_travel_green_user_score($build);
+      $score = green_travel_green_user_score($username);
       $build['text'] = array(
       '#markup' => '<p class="dashboard-text"> Score : ' . $score . '</p>',
       '#weight' => -10,
@@ -90,6 +110,3 @@ function green_travel_node_view_alter(&$build) {
       $build = array_merge($build,$link);
   }
 }
-
-
-

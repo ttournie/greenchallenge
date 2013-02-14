@@ -64,8 +64,17 @@ function green_user_user_view_alter(&$build) {
   $path = drupal_get_path_alias($path);
   $arrayPath = explode('/', $path);
   $username=$arrayPath[1];
-      
+  
+  // Replacement of underscors
+  $username = str_replace('_',' ',$username);
+  
   $link = green_user_link_menu($username);
+  $score = green_user_score($username);
+  
+  $build['text'] = array(
+      '#markup' => '<p class="dashboard-text"> Score Global : ' . $score . '</p>',
+      '#weight' => -10,
+      );
   
   $build['user_picture']['#title'] = t('user picture');
   $build = array_merge($build,$link);
@@ -115,4 +124,18 @@ function green_user_link_menu($username) {
   );
   
   return $build;
+}
+
+/*
+ * Return the global score of user
+ */
+function green_user_score($user_name) {
+    $userScore = 0;
+    
+    // Get all the score and sum them
+    $scores = module_invoke_all('green_user_score', $user_name );
+    foreach($scores as $score) {
+        $userScore += $score;
+    }
+    return $userScore;
 }

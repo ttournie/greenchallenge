@@ -72,7 +72,6 @@ function green_alimentation_page_view($user_name) {
   // Return the node's view
   module_load_include('inc', 'node', 'node.pages');
   node_view($node);
-
   return  node_view($node);;
   
 }
