@@ -20,3 +20,30 @@ function green_challenge_preprocess_user_profile_category(&$variables) {
     $variables['attributes'] = drupal_attributes($variables['element']['#attributes']);
   }
 }
+
+/**
+ * Theming function for account block.
+ */
+function green_challenge_account_block($variables) {
+  $build = array(
+    'link' => array(
+      '#theme' => 'link',
+      '#text' => t('Mon profil'),
+      '#path' => 'profil/'.$variables['username'],
+      '#options' => array(
+        'attributes' => array(),
+        'html' => true,
+      ),
+    ),
+    'link2' => array(
+      '#theme' => 'link',
+      '#text' => t('Déconnexion'),
+      '#path' => 'user/logout',
+      '#options' => array(
+        'attributes' => array(),
+        'html' => true,
+      ),
+    ),
+  );
+  return $build;
+}

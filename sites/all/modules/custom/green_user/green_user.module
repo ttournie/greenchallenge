@@ -4,6 +4,56 @@
  * @file
  */
 
+/**
+ * Implements hook_block_info().
+ */
+function green_user_block_info() {
+  $blocks['account'] = array(
+    'info' => t('Liens d\'access à mon compte'),
+    'status' => TRUE,
+    'region' => 'header',
+    'visibility' => BLOCK_VISIBILITY_NOTLISTED,
+  );
+
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ *
+ * This hook generates the contents of the blocks themselves.
+ */
+function green_user_block_view($delta = '') {
+  global $user;
+  // Convertion user name string to url with pathauto
+  if (module_exists('pathauto')) {
+      module_load_include('inc', 'pathauto', 'pathauto');
+      $user_name =  pathauto_cleanstring($user->name);  
+  }
+  if(user_is_logged_in()){
+    $block = array();
+    switch ($delta) {
+        case 'account':
+        $block['content'] = theme('account_block', array('username' => $user_name));
+        break;
+    }
+    return $block;
+  } else {
+      return null;
+  }
+  
+}
+/**
+ * Implements hook_theme().
+ */
+function green_user_theme() {
+  return array(
+    'account_block' => array(
+      'variables' => array(),
+    ),
+  );
+}
+
 
 /**
  * Implements hook_form_FORM_ID_alter().
