@@ -25,8 +25,7 @@ function green_user_page_view($user_name) {
     return t('Aucun utilisateur ne correspond à ce nom');
   }
 
-  drupal_set_title('Profil');
-  
-  return user_view($user);
+  drupal_set_title($user_name); 
+  return user_view($user,'full');
   
 }
