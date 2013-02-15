@@ -20,7 +20,7 @@ function green_travel_permission() {
  * Implements hook_menu().
  */
 function green_travel_menu() {
-  $items['profile/travel/edit'] = array(
+  $items['profil/travel/edit'] = array(
     'type' => MENU_NORMAL_ITEM,
     'title' => 'Mes Déplacements',
     'page callback' => 'green_travel_page',

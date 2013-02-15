@@ -23,6 +23,31 @@ function green_user_form_user_profile_form_alter(&$form, &$form_state) {
 }
 
 /**
+ * Implements hook_menu().
+ */
+function green_user_menu() {
+  $items['profil/edit'] = array(
+    'type' => MENU_NORMAL_ITEM,
+    'title' => 'Mon Profil',
+    'page callback' => 'green_user_page',
+    'access callback' => TRUE,
+    'file' => 'green_user.pages.inc',
+  );
+  
+  $items['profil/%'] = array(
+    'type' => MENU_LOCAL_TASK,
+    'title' => 'Profil',
+    'page callback' => 'green_user_page_view',
+    'page arguments' => array(1),
+    'file' => 'green_user.pages.inc',
+    'access callback' => TRUE,
+  );
+ 
+  return $items;
+}
+
+
+/**
  * Implements hook_form_FORM_ID_alter().
  */
 function green_user_form_user_register_form_alter(&$form, &$form_state) {
@@ -92,7 +117,7 @@ function green_user_link_menu($username) {
   $build['profil'] = array(
     '#type' => 'link',
     '#title' => t('Profil'),
-    '#href' => 'users/'.$username,
+    '#href' => 'profil/'.$username,
     '#weight' => -810,
     '#prefix' => '<li>',
     '#suffix' => '</li>',

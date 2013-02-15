@@ -20,7 +20,7 @@ function green_alimentation_permission() {
  * Implements hook_menu().
  */
 function green_alimentation_menu() {
-  $items['profile/alimentation/edit'] = array(
+  $items['profil/alimentation/edit'] = array(
     'type' => MENU_NORMAL_ITEM,
     'title' => 'Mon Alimentation',
     'page callback' => 'green_alimentation_page',

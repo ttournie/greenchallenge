@@ -1663,3 +1663,7 @@ ul.profil li {
 p.score {
     clear: both;
 }
+
+.profile {
+    font-size: 1.071em;   
+}
