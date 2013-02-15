@@ -67,7 +67,8 @@ function green_travel_page_view($user_name) {
     // Load the user's alimentation node.
     $node = node_load(reset($results['node'])->nid);
   }
-
+  
+  drupal_set_title('Déplacement');
   // Return the node's view
   module_load_include('inc', 'node', 'node.pages');
   node_view($node);

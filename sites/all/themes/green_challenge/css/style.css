@@ -1667,3 +1667,38 @@ p.score {
 .profile {
     font-size: 1.071em;   
 }
+
+/*---User Login Form---*/
+.region-header #block-user-login .form-item {
+    float: none;
+}
+
+#user-login-form label{
+    display: none;
+}
+
+.region-header #block-user-login .item-list li {
+    float: none;
+}
+
+.region-header #block-user-login .item-list li.first {  
+    margin-bottom: 10px;
+}
+
+.region-header #block-user-login .item-list li.last {
+    padding-left: 0px;
+}
+
+.region-header #block-user-login .item-list li.last a {
+    border-top: 1px solid;
+}
+
+
+.region-header #block-user-login {
+    width: 250px;
+}
+
+.region-header .form-text {
+    width: 170px;
+}
+
