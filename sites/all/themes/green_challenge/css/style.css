@@ -1702,3 +1702,10 @@ p.score {
     width: 170px;
 }
 
+/*---User Block---*/
+.region-header div.block-green-user {
+    position: absolute;
+    font-size: 1em;
+    right: 18px;
+    bottom: 90px;
+}

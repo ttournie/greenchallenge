@@ -25,11 +25,18 @@ function green_challenge_preprocess_user_profile_category(&$variables) {
  * Theming function for account block.
  */
 function green_challenge_account_block($variables) {
+
+    
   $build = array(
+    'ul' => array(
+      '#markup' => '<ul class="profil">',
+    ),
     'link' => array(
       '#theme' => 'link',
       '#text' => t('Mon profil'),
       '#path' => 'profil/'.$variables['username'],
+      '#prefix' => '<li>',
+      '#sufix' => '</li>',
       '#options' => array(
         'attributes' => array(),
         'html' => true,
@@ -39,10 +46,15 @@ function green_challenge_account_block($variables) {
       '#theme' => 'link',
       '#text' => t('Déconnexion'),
       '#path' => 'user/logout',
+      '#prefix' => '<li>',
+      '#sufix' => '</li>',
       '#options' => array(
         'attributes' => array(),
         'html' => true,
       ),
+    ),
+    'endul' => array(
+      '#markup' => '</ul>',
     ),
   );
   return $build;
