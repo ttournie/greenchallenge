@@ -146,6 +146,7 @@ function green_user_menu_alter(&$items) {
   $items['user/%user/edit/main']['access callback'] = FALSE;
   $items['user/register']['type'] = MENU_CALLBACK;
   $items['user/password']['type'] = MENU_CALLBACK;
+  $items['user/edit']['type'] = MENU_CALLBACK;
   
 }
 
