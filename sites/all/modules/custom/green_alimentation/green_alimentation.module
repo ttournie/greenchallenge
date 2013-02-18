@@ -156,20 +156,27 @@ function green_alimentation_form_alimentation_node_submit($form, &$form_state) {
 }
 
 /**
- * Change form redirection
+ * Insert badges in the database when it's necessary 
  */
 function green_alimentation_form_alimentation_node_validate($form, &$form_state) { 
   global $user; 
+  // Test the field value
   if($form_state['values']['field_type_de_regime']['und'][0]['value']=='Végétarien') {
-    db_insert('users_badge')
+    // Test if the user already has the badge
+    $result = db_select('users_badge', 'ub')
+      ->fields('ub')
+      ->condition('badge_id', 0 , '=')
+      ->condition('user_id', $user->uid , '=')
+      ->execute()
+      ->rowCount();
+    // If the user do not have the badge we give him  
+    if($result == 0) {
+      db_insert('users_badge')
       ->fields(array(
         'badge_id' => 0,
         'user_id' => $user->uid,
       ))
       ->execute();
+    }
   }
-}
-
-function green_alimentation_badge(){
-    
 }

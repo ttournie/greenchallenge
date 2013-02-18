@@ -238,27 +238,3 @@ function green_user_score($user_name) {
     }
     return $userScore;
 }
-
-/**
- * Implements hook_user_view_alter().
- */
-function green_user_node_view_alter(&$build) {
-  // Testing the node type
-  if($build['#bundle'] == 'travel') {
-      $path = current_path();
-      $path = drupal_get_path_alias($path);
-      $arrayPath = explode('/', $path);
-      $username=$arrayPath[1];      
-      // We build the menu for the current username
-      $link = green_user_link_menu($username);
-      
-      // Calculate and display the score
-      $score = green_travel_green_user_score($username);
-      $build['text'] = array(
-      '#markup' => '<p class="score"> Score : ' . $score . '</p>',
-      '#weight' => -10,
-      );
-      
-      $build = array_merge($build,$link);
-  }
-}
