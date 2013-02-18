@@ -165,8 +165,7 @@ function green_user_user_view_alter(&$build) {
   $path = drupal_get_path_alias($path);
   $arrayPath = explode('/', $path);
   $username=$arrayPath[1];
-  
-  
+   
   $link = green_user_link_menu($username);
   $score = green_user_score($username);
   
@@ -176,6 +175,20 @@ function green_user_user_view_alter(&$build) {
       );
   
   $build['user_picture']['#title'] = t('user picture');
+  
+   $result = db_select('users_badge', 'ub')
+      ->fields('ub')
+      ->condition('user_id', $user->uid , '=')
+      ->execute()
+      ->fetchAll();
+   
+  foreach($result as $row){
+    $build['badge'] = array(
+    '#markup' => '<p class="score"> Badges : ' . $row->badge_id . '</p>',
+    '#weight' => -10,
+    );
+
+  } 
   $build = array_merge($build,$link);
 }
 
