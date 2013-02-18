@@ -109,6 +109,18 @@ function green_user_menu() {
   return $items;
 }
 
+/**
+ * Implements hook_form_alter().
+ */
+function green_user_form_alter(&$form, &$form_state, $form_id) {
+  foreach($form as $field) {
+    if(is_array($field) && isset($field['#group'])) {           
+      if($field['#group'] == 'additional_settings'){  
+          $field['#access'] = false;
+      } 
+    }
+  }
+}
 
 /**
  * Implements hook_form_FORM_ID_alter().
