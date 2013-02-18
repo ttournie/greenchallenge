@@ -35,9 +35,9 @@ function green_user_block_view($delta = '') {
     switch ($delta) {
         case 'account':
         $block['content'] = theme('account_block', array('username' => $user_name));
+        return $block;
         break;  
     }
-    return $block;
   } else {
     return false;
   }
@@ -114,10 +114,8 @@ function green_user_menu() {
  */
 function green_user_form_alter(&$form, &$form_state, $form_id) {
   foreach($form as $field) {
-    if(is_array($field) && isset($field['#group'])) {           
-      if($field['#group'] == 'additional_settings'){  
-          $field['#access'] = false;
-      } 
+    if(is_array($field) && isset($field['#group']) && $field['#group'] == 'additional_settings') { 
+        $field['#access'] = false;
     }
   }
 }
