@@ -22,6 +22,16 @@ function green_challenge_preprocess_user_profile_category(&$variables) {
 }
 
 /**
+ * Override or insert variables into the block template.
+ */
+function green_challenge_preprocess_block(&$variables) {
+  // In the header region visually hide block titles.
+  if ($variables['block']->region == 'header') {
+    $variables['title_attributes_array']['class'][] = 'element-invisible';
+  }
+}
+
+/**
  * Theming function for account block.
  */
 function green_challenge_account_block($variables) {

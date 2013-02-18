@@ -24,6 +24,7 @@ function green_user_block_info() {
  * This hook generates the contents of the blocks themselves.
  */
 function green_user_block_view($delta = '') {
+  // You have to hide the block when the user is not logged in (In drupal block configuration)
   global $user;
   $block = array();
   // Convertion user name string to url with pathauto
@@ -38,6 +39,9 @@ function green_user_block_view($delta = '') {
   }
   return $block;
 }
+
+
+
 /**
  * Implements hook_theme().
  */
