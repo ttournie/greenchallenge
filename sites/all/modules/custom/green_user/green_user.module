@@ -26,21 +26,35 @@ function green_user_block_info() {
 function green_user_block_view($delta = '') {
   // You have to hide the block when the user is not logged in (In drupal block configuration)
   global $user;
-  $block = array();
-  // Convertion user name string to url with pathauto
-  if (module_exists('pathauto')) {
-      module_load_include('inc', 'pathauto', 'pathauto');
-      $user_name =  pathauto_cleanstring($user->name);  
+  if(user_is_logged_in($user)) {
+    // Convertion user name string to url with pathauto
+    if (module_exists('pathauto')) {
+        module_load_include('inc', 'pathauto', 'pathauto');
+        $user_name =  pathauto_cleanstring($user->name);  
+    }
+    switch ($delta) {
+        case 'account':
+        $block['content'] = theme('account_block', array('username' => $user_name));
+        break;  
+    }
+    return $block;
+  } else {
+    return false;
   }
-  switch ($delta) {
-      case 'account':
-      $block['content'] = theme('account_block', array('username' => $user_name));
-      break;
-  }
-  return $block;
+  
 }
 
-
+/**
+ * Implements hook_block_view_alter().
+ *
+ */
+function green_user_block_view_alter(&$data, $block) {
+    global $user;
+    // Useful to show the login block everywhere 
+    if($block->delta == 'login'){
+        $data['content'] = drupal_get_form('user_login_block');
+    }
+}
 
 /**
  * Implements hook_theme().
@@ -120,6 +134,8 @@ function green_user_register_form_validate($form, &$form_state) {
  */
 function green_user_menu_alter(&$items) {
   $items['user/%user/edit/main']['access callback'] = FALSE;
+  $items['user/register']['type'] = MENU_CALLBACK;
+  $items['user/password']['type'] = MENU_CALLBACK;
   
 }
 
