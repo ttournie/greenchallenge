@@ -1,0 +1,98 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the green badge module.
+ */
+
+/**
+ * Implements hook_schema().
+ */
+function green_badge_schema() {
+  $schema['badge'] = array(
+    'description' => 'Stores the badge type',
+    'fields' => array(
+      'id' => array(
+        'description' => 'Primary Key: Unique ID.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'name' => array(
+        'type' => 'varchar',
+        'length' => 128,
+        'not null' => TRUE,
+        'description' => "Badge name",
+      ),
+      'description' => array(
+        'type' => 'varchar',
+        'length' => 250,
+        'not null' => TRUE,
+        'default' => '',
+        'description' => 'Badge description',
+      ),
+      'image' => array(
+        'description' => 'Associated image. Can be a full URL, or a relative path for the image library.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+    ),
+    'unique keys' => array(
+      'name' => array('name'),
+    ),
+    'primary key' => array('id'),
+  );
+
+  $schema['users_badge'] = array(
+    'description' => 'Link beetween user and it\'s badges',
+    'fields' => array(
+      'badge_id' => array(
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'description' => 'Foreign Key: {badge}.id.',
+      ),
+      'user_id' => array(
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'description' => 'Foreign Key: {users}.uid.',
+      ),
+    ),
+      'unique keys' => array(
+        'badge_user' => array('badge_id', 'user_id'),
+      ),
+    'foreign keys' => array(
+      'badge' => array(
+        'table' => 'badge',
+        'columns' => array('badge_id' => 'id'),
+      ),
+      'users' => array(
+        'table' => 'users',
+        'columns' => array('user_id' => 'uid'),
+      ),
+    ),
+  );
+  return $schema;
+}
+
+/**
+ * Implements hook_install().
+ */
+function green_user_install() {
+  // Insert a row for the anonymous user.
+  db_insert('badge')
+    ->fields(array(
+      'id' => 0,
+      'name' => 'Végétarien',
+      'description' => 'Etre végétarien',
+    ))
+    ->fields(array(
+      'id' => 1,
+      'name' => 'Végétalien',
+      'description' => 'Etre végétalien',
+    ))
+    ->execute();
+}

@@ -138,6 +138,8 @@ function green_alimentation_node_view_alter(&$build) {
 function green_alimentation_form_alimentation_node_form_alter(&$form, &$form_state) {
   $form_state['redirect'] = 'node/1';
   $form['actions']['submit']['#submit'][] = 'green_alimentation_form_alimentation_node_submit';
+  //dsm($form);
+  $form['#validate'][] = 'green_alimentation_form_alimentation_node_validate';
 }
 
 /**
@@ -151,4 +153,23 @@ function green_alimentation_form_alimentation_node_submit($form, &$form_state) {
       $user_name =  pathauto_cleanstring($user->name);  
       $form_state['redirect'] = 'alimentation/'.$user_name; 
   }
+}
+
+/**
+ * Change form redirection
+ */
+function green_alimentation_form_alimentation_node_validate($form, &$form_state) { 
+  global $user; 
+  if($form_state['values']['field_type_de_regime']['und'][0]['value']=='Végétarien') {
+    db_insert('users_badge')
+      ->fields(array(
+        'badge_id' => 0,
+        'user_id' => $user->uid,
+      ))
+      ->execute();
+  }
+}
+
+function green_alimentation_badge(){
+    
 }

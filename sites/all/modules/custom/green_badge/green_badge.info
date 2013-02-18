@@ -1,0 +1,5 @@
+name = Green Badge
+description = Green Badge functionalities.
+package = Green Project
+core = 7.x
+
