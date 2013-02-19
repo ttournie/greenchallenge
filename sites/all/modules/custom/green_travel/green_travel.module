@@ -29,7 +29,7 @@ function green_travel_menu() {
     'file' => 'green_travel.pages.inc',
   );
   
-  $items['travel/%'] = array(
+  $items['travel/%user_name'] = array(
     'type' => MENU_LOCAL_TASK,
     'title' => 'Déplacements',
     'page callback' => 'green_travel_page_view',

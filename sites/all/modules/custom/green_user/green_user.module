@@ -97,7 +97,7 @@ function green_user_menu() {
     'file' => 'green_user.pages.inc',
   );
   
-  $items['profil/%'] = array(
+  $items['profil/%user_name'] = array(
     'type' => MENU_LOCAL_TASK,
     'title' => 'Profil',
     'page callback' => 'green_user_page_view',

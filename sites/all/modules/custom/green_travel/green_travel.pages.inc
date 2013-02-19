@@ -38,13 +38,7 @@ function green_travel_page($node_type) {
 /**
  * Page callback for alimentation page.
  */
-function green_travel_page_view($user_name) {
-  // Replacement of underscors
-  $user_name = str_replace('_',' ',$user_name);
-
-  // Search the user with the username
-  $user = user_load_by_name($user_name);
-  
+function green_travel_page_view($user) {
   // If the username does not exist
   if(!$user) {
     return t('Aucun utilisateur ne correspond à ce nom');

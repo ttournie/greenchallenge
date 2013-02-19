@@ -13,19 +13,13 @@ function green_user_page() {
 /**
  * Page callback for user view page.
  */
-function green_user_page_view($user_name) {
-  // Replacement of underscors
-  $user_name = str_replace('_',' ',$user_name);
-
-  // Search the user with the username
-  $user = user_load_by_name($user_name);
-  
+function green_user_page_view($user) {
   // If the username does not exist
   if(!$user) {
     return t('Aucun utilisateur ne correspond à ce nom');
   }
 
-  drupal_set_title($user_name); 
+  drupal_set_title($user->name); 
   return user_view($user,'full');
   
 }
