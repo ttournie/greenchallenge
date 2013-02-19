@@ -29,7 +29,7 @@ function green_alimentation_menu() {
     'file' => 'green_alimentation.pages.inc',
   );
   
-  $items['alimentation/%'] = array(
+  $items['alimentation/%user_name'] = array(
     'type' => MENU_LOCAL_TASK,
     'title' => 'Alimentation',
     'page callback' => 'green_alimentation_page_view',

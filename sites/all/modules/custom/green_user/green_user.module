@@ -175,6 +175,10 @@ function green_user_user_view_alter(&$build) {
     );
   
   $build['user_picture']['#title'] = t('user picture');
+  $build['div_badge'] = array(
+    '#markup' => '<div class="Badge"><h4>'.t('Badges').'</h4>',
+    '#weight' => -9,
+    );
   // Load all the user's badges
   $result = green_badge_user_badge($user);
   // Display all the user badges
@@ -182,10 +186,14 @@ function green_user_user_view_alter(&$build) {
     $build['badge'] = array(
     '#theme' => 'image',
     '#path' => drupal_get_path('module', 'green_badge').$row->image,
-    '#weight' => -10,
+    '#weight' => -8,
     '#alt'=> t($row->name),
     );
   } 
+  $build['undiv_badge'] = array(
+    '#markup' => '</div>',
+    '#weight' => -7,
+  );
   $build = array_merge($build,$link);
 }
 
@@ -247,4 +255,25 @@ function green_user_score($user_name) {
         $userScore += $score;
     }
     return $userScore;
+}
+
+/**
+ * Menu callback; loads a user by username object
+ */
+function user_name_load($user_name) {
+  global $user;
+  module_load_include('inc', 'pathauto', 'pathauto');
+  $current_user_url =  pathauto_cleanstring($user->name);
+  // Replacement of underscors
+  $user_name = str_replace('_',' ',$user_name);
+  
+  // Search the user with the username
+  $user = user_load_by_name(check_plain($user_name));
+  
+  // If the username does not exist
+  if(!$user) {
+    drupal_set_message(t('L\'utilisateur n\'existe pas'), 'error');
+    drupal_goto('profil/'.$current_user_url); 
+  } else 
+    return $user;
 }
