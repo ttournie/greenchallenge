@@ -3,3 +3,21 @@
 /**
  * @file
  */
+
+/**
+ * Test if a user already has a badge 
+ */
+function green_badge_user_has_badge($user, $badge_name) {
+  $query = db_select('users_badge', 'ub');       
+  $query->join('badge','b','b.id = ub.badge_id');
+  $query->fields('ub')
+    ->condition('b.name', $badge_name , '=')
+    ->condition('user_id', $user->uid , '=');
+  $result = $query->execute()
+    ->rowCount();
+  
+  if($result == 0) {
+    return false;
+  } else
+    return true;
+}

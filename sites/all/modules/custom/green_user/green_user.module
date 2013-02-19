@@ -158,7 +158,7 @@ function green_user_user_view_alter(&$build) {
 
   // Deleting history information
   if (isset($build['summary'])) {
-      unset($build['summary']);
+    unset($build['summary']);
   }
   
   $path = current_path();
@@ -170,21 +170,23 @@ function green_user_user_view_alter(&$build) {
   $score = green_user_score($username);
   
   $build['text'] = array(
-      '#markup' => '<p class="score"> Score Global : ' . $score . '</p>',
-      '#weight' => -10,
-      );
+    '#markup' => '<p class="score"> Score Global : ' . $score . '</p>',
+    '#weight' => -10,
+    );
   
   $build['user_picture']['#title'] = t('user picture');
-  
-   $result = db_select('users_badge', 'ub')
-      ->fields('ub')
-      ->condition('user_id', $user->uid , '=')
-      ->execute()
-      ->fetchAll();
-   
+ 
+  // Query to find all the user's badges
+  $query = db_select('users_badge', 'ub');
+    
+  $query->join('badge','b','b.id = ub.badge_id');
+  $query->fields('b')    
+    ->condition('user_id', $user->uid , '=');
+  $result = $query->execute()->fetchAll();
+
   foreach($result as $row){
     $build['badge'] = array(
-    '#markup' => '<p class="score"> Badges : ' . $row->badge_id . '</p>',
+    '#markup' => '<p class="score"> Badges : ' . $row->name . '</p>',
     '#weight' => -10,
     );
 
