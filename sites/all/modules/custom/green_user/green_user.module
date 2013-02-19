@@ -268,12 +268,12 @@ function user_name_load($user_name) {
   $user_name = str_replace('_',' ',$user_name);
   
   // Search the user with the username
-  $user = user_load_by_name(check_plain($user_name));
+  $user_view = user_load_by_name(check_plain($user_name));
   
   // If the username does not exist
   if(!$user) {
-    drupal_set_message(t('L\'utilisateur n\'existe pas'), 'error');
     drupal_goto('profil/'.$current_user_url); 
+    return false;
   } else 
-    return $user;
+    return $user_view;
 }
