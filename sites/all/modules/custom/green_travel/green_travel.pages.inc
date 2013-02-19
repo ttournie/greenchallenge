@@ -39,10 +39,6 @@ function green_travel_page($node_type) {
  * Page callback for alimentation page.
  */
 function green_travel_page_view($user) {
-  // If the username does not exist
-  if(!$user) {
-    return t('Aucun utilisateur ne correspond à ce nom');
-  }
   $node_type = 'travel';
   // Search for an existing alimentation for the current user.
   $query = new EntityFieldQuery();

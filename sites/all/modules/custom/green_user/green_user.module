@@ -267,11 +267,10 @@ function user_name_load($user_name) {
   
   // Search the user with the username
   $user_view = user_load_by_name(check_plain($user_name));
-  
   // If the username does not exist
-  if(!$user) {
-    drupal_goto('profil/'.$current_user_url); 
-    return false;
+  if(!$user_view) {
+    drupal_set_message('l\'utilisateur n\'existe pas', 'error');
+    drupal_goto('profil/'.$current_user_url);
   } else 
     return $user_view;
 }

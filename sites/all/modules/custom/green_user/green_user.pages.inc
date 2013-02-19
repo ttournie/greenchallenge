@@ -14,11 +14,6 @@ function green_user_page() {
  * Page callback for user view page.
  */
 function green_user_page_view($user) {
-  // If the username does not exist
-  if(!$user) {
-    return t('Aucun utilisateur ne correspond à ce nom');
-  }
-
   drupal_set_title($user->name); 
   return user_view($user,'full');
   
