@@ -154,8 +154,6 @@ function green_user_menu_alter(&$items) {
  * Implements hook_user_view_alter().
  */
 function green_user_user_view_alter(&$build) {
-  global $user; 
-
   // Deleting history information
   if (isset($build['summary'])) {
     unset($build['summary']);
@@ -180,7 +178,7 @@ function green_user_user_view_alter(&$build) {
     '#weight' => -9,
     );
   // Load all the user's badges
-  $result = green_badge_user_badge($user);
+  $result = green_badge_user_badge($username);
   // Display all the user badges
   foreach($result as $row){
     $build['badge'] = array(
