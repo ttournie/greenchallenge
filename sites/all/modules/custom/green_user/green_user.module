@@ -175,21 +175,16 @@ function green_user_user_view_alter(&$build) {
     );
   
   $build['user_picture']['#title'] = t('user picture');
- 
-  // Query to find all the user's badges
-  $query = db_select('users_badge', 'ub');
-    
-  $query->join('badge','b','b.id = ub.badge_id');
-  $query->fields('b')    
-    ->condition('user_id', $user->uid , '=');
-  $result = $query->execute()->fetchAll();
-
+  // Load all the user's badges
+  $result = green_badge_user_badge($user);
+  // Display all the user badges
   foreach($result as $row){
     $build['badge'] = array(
-    '#markup' => '<p class="score"> Badges : ' . $row->name . '</p>',
+    '#theme' => 'image',
+    '#path' => drupal_get_path('module', 'green_badge').$row->image,
     '#weight' => -10,
+    '#alt'=> t($row->name),
     );
-
   } 
   $build = array_merge($build,$link);
 }

@@ -21,3 +21,18 @@ function green_badge_user_has_badge($user, $badge_name) {
   } else
     return true;
 }
+
+/**
+ * Return all the user badge 
+ */
+function green_badge_user_badge($user) {
+  // Query to find all the user's badges
+  $query = db_select('users_badge', 'ub');
+    
+  $query->join('badge','b','b.id = ub.badge_id');
+  $query->fields('b')    
+    ->condition('user_id', $user->uid , '=');
+  $result = $query->execute()->fetchAll();
+  return $result;
+  
+}

@@ -50,21 +50,21 @@ function green_alimentation_green_user_score($user_name){
   $user = user_load_by_name($user_name); 
   
   if(!$user) {
-      return false;
+    return false;
   }
   
   $node_type = 'alimentation';
   // Search for an existing alimentation for the current user.
   $query = new EntityFieldQuery();
   $results = $query->entityCondition('entity_type', 'node')
-      ->entityCondition('bundle', $node_type)
-      ->propertyCondition('status', TRUE)
-      ->propertyCondition('uid', $user->uid)
-      ->execute();
+    ->entityCondition('bundle', $node_type)
+    ->propertyCondition('status', TRUE)
+    ->propertyCondition('uid', $user->uid)
+    ->execute();
 
   // If the user has no alimentation node yet
   if (empty($results['node'])) {
-     return false;
+   return false;
   }
   
   else {
@@ -75,36 +75,36 @@ function green_alimentation_green_user_score($user_name){
   $score = 0;
     // Diet type field
     if(isset($node->field_type_de_regime['und'])) {
-        switch($node->field_type_de_regime['und'][0]['value']) {
-            case 'Végétarien' : 
-                $score += 30;
-                break;
-            case 'Végétalien' : 
-                $score += 50;
-                break;
-        }
+      switch($node->field_type_de_regime['und'][0]['value']) {
+        case 'Végétarien' : 
+          $score += 30;
+          break;
+        case 'Végétalien' : 
+          $score += 50;
+          break;
+      }
     }
     // Fish consumption 
     if(isset($node->field_conso_poissons['und'])) {        
-        switch($node->field_conso_poissons['und'][0]['value']) {
-            case '0' :
-                $score += 20;
-                break;
-            case '1' : 
-                $score += 14;
-                break;
-            case '2' : 
-                $score += 10;
-                break;
-            case '3' : 
-                $score += 6;
-                break;
-            case '4' : 
-                $score += 2;
-                break;
-        }
-    }
-    return $score;
+      switch($node->field_conso_poissons['und'][0]['value']) {
+        case '0' :
+          $score += 20;
+          break;
+        case '1' : 
+          $score += 14;
+          break;
+        case '2' : 
+          $score += 10;
+          break;
+        case '3' : 
+          $score += 6;
+          break;
+        case '4' : 
+          $score += 2;
+          break;
+      }
+  }
+  return $score;
 }
 
 /**
@@ -113,21 +113,21 @@ function green_alimentation_green_user_score($user_name){
 function green_alimentation_node_view_alter(&$build) {
   // Testing the node type
   if($build['#bundle'] == 'alimentation') {
-      $path = current_path();
-      $path = drupal_get_path_alias($path);
-      $arrayPath = explode('/', $path);
-      $username=$arrayPath[1];
+    $path = current_path();
+    $path = drupal_get_path_alias($path);
+    $arrayPath = explode('/', $path);
+    $username=$arrayPath[1];
 
-      // We build the menu for the current username
-      $link = green_user_link_menu($username);
+    // We build the menu for the current username
+    $link = green_user_link_menu($username);
       
-      // Calculate and display the score
-      $score = green_alimentation_green_user_score($username);
-      $build['text'] = array(
-      '#markup' => '<p class="score"> Score : ' . $score . '</p>',
-      '#weight' => -10,
-      );
-      $build = array_merge($build,$link);
+    // Calculate and display the score
+    $score = green_alimentation_green_user_score($username);
+    $build['text'] = array(
+    '#markup' => '<p class="score"> Score : ' . $score . '</p>',
+    '#weight' => -10,
+    );
+    $build = array_merge($build,$link);
   }
 }
 
@@ -138,7 +138,6 @@ function green_alimentation_node_view_alter(&$build) {
 function green_alimentation_form_alimentation_node_form_alter(&$form, &$form_state) {
   $form_state['redirect'] = 'node/1';
   $form['actions']['submit']['#submit'][] = 'green_alimentation_form_alimentation_node_submit';
-  //dsm($form);
   $form['#validate'][] = 'green_alimentation_form_alimentation_node_validate';
 }
 
@@ -149,9 +148,9 @@ function green_alimentation_form_alimentation_node_submit($form, &$form_state) {
   global $user; 
   // Convertion user name string to url with pathauto
   if (module_exists('pathauto')) {
-      module_load_include('inc', 'pathauto', 'pathauto');
-      $user_name =  pathauto_cleanstring($user->name);  
-      $form_state['redirect'] = 'alimentation/'.$user_name; 
+    module_load_include('inc', 'pathauto', 'pathauto');
+    $user_name =  pathauto_cleanstring($user->name);  
+    $form_state['redirect'] = 'alimentation/'.$user_name; 
   }
 }
 
