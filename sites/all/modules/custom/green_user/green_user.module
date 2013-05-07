@@ -271,6 +271,7 @@ function user_name_load($user_name) {
   if(!$user_view) {
     drupal_set_message('l\'utilisateur n\'existe pas', 'error');
     drupal_goto('profil/'.$current_user_url);
-  } else 
+  } else {
     return $user_view;
+  }
 }
