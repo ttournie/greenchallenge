@@ -52,12 +52,12 @@ function green_travel_page_view($user) {
   if (empty($results['node'])) {
      return t($user->name.' n\'a pas encore renseigné cette section');
   }
-  
+
   else {
     // Load the user's alimentation node.
     $node = node_load(reset($results['node'])->nid);
   }
-  
+
   drupal_set_title('Déplacement');
   // Return the node's view
   module_load_include('inc', 'node', 'node.pages');

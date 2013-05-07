@@ -122,3 +122,57 @@ function corolla_fieldset($vars) {
 
   return $output;
 }
+
+function corolla_preprocess_user_profile_category(&$variables) {
+  // Hide title in certain case
+  if($variables['element']['#title'] == 'Main profile') {
+     $variables['title'] = null;
+  } else
+    $variables['title'] = check_plain($variables['element']['#title']);
+  $variables['profile_items'] = $variables['element']['#children'];
+  $variables['attributes'] = '';
+  if (isset($variables['element']['#attributes'])) {
+    $variables['attributes'] = drupal_attributes($variables['element']['#attributes']);
+  }
+}
+
+
+/**
+ * Theming function for account block.
+ */
+function corolla_account_block($variables) {
+
+
+  $build = array(
+    'ul' => array(
+      '#markup' => '<ul class="profil">',
+    ),
+    'link' => array(
+      '#theme' => 'link',
+      '#text' => t('Mon profil'),
+      '#path' => 'profil/'.$variables['username'],
+      '#prefix' => '<li>',
+      '#sufix' => '</li>',
+      '#options' => array(
+        'attributes' => array(),
+        'html' => true,
+      ),
+    ),
+    'link2' => array(
+      '#theme' => 'link',
+      '#text' => t('Déconnexion'),
+      '#path' => 'user/logout',
+      '#prefix' => '<li>',
+      '#sufix' => '</li>',
+      '#options' => array(
+        'attributes' => array(),
+        'html' => true,
+      ),
+    ),
+    'endul' => array(
+      '#markup' => '</ul>',
+    ),
+  );
+  return $build;
+}
+

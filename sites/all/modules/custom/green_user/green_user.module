@@ -30,18 +30,18 @@ function green_user_block_view($delta = '') {
     // Convertion user name string to url with pathauto
     if (module_exists('pathauto')) {
         module_load_include('inc', 'pathauto', 'pathauto');
-        $user_name =  pathauto_cleanstring($user->name);  
+        $user_name =  pathauto_cleanstring($user->name);
     }
     switch ($delta) {
         case 'account':
         $block['content'] = theme('account_block', array('username' => $user_name));
         return $block;
-        break;  
+        break;
     }
   } else {
     return false;
   }
-  
+
 }
 
 /**
@@ -50,7 +50,7 @@ function green_user_block_view($delta = '') {
  */
 function green_user_block_view_alter(&$data, $block) {
     global $user;
-    // Useful to show the login block everywhere 
+    // Useful to show the login block everywhere
     if($block->delta == 'login'){
         $data['content'] = drupal_get_form('user_login_block');
     }
@@ -96,16 +96,21 @@ function green_user_menu() {
     'access callback' => TRUE,
     'file' => 'green_user.pages.inc',
   );
-  
+
   $items['profil/%user_name'] = array(
-    'type' => MENU_LOCAL_TASK,
     'title' => 'Profil',
     'page callback' => 'green_user_page_view',
     'page arguments' => array(1),
     'file' => 'green_user.pages.inc',
     'access callback' => TRUE,
   );
- 
+
+  $items['profil/%user_name/user'] = array(
+    'title' => 'Profil',
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'weight' => -15,
+  );
+
   return $items;
 }
 
@@ -114,7 +119,7 @@ function green_user_menu() {
  */
 function green_user_form_alter(&$form, &$form_state, $form_id) {
   foreach($form as $field) {
-    if(is_array($field) && isset($field['#group']) && $field['#group'] == 'additional_settings') { 
+    if(is_array($field) && isset($field['#group']) && $field['#group'] == 'additional_settings') {
         $field['#access'] = false;
     }
   }
@@ -147,7 +152,7 @@ function green_user_menu_alter(&$items) {
   $items['user/register']['type'] = MENU_CALLBACK;
   $items['user/password']['type'] = MENU_CALLBACK;
   $items['user/%user/edit']['type'] = MENU_CALLBACK;
-  
+
 }
 
 /**
@@ -158,20 +163,20 @@ function green_user_user_view_alter(&$build) {
   if (isset($build['summary'])) {
     unset($build['summary']);
   }
-  
+
   $path = current_path();
   $path = drupal_get_path_alias($path);
   $arrayPath = explode('/', $path);
   $username=$arrayPath[1];
-   
+
   $link = green_user_link_menu($username);
   $score = green_user_score($username);
-  
+
   $build['text'] = array(
     '#markup' => '<p class="score"> Score Global : ' . $score . '</p>',
     '#weight' => -10,
     );
-  
+
   $build['user_picture']['#title'] = t('user picture');
   $build['div_badge'] = array(
     '#markup' => '<div class="Badge"><h4>'.t('Badges').'</h4>',
@@ -187,7 +192,7 @@ function green_user_user_view_alter(&$build) {
     '#weight' => -8,
     '#alt'=> t($row->name),
     );
-  } 
+  }
   $build['undiv_badge'] = array(
     '#markup' => '</div>',
     '#weight' => -7,
@@ -199,13 +204,13 @@ function green_user_user_view_alter(&$build) {
  * Generate the link menu for users
  */
 function green_user_link_menu($username) {
-  $build=array();  
-  
+  $build=array();
+
   $build['ul'] = array(
     '#markup' => '<ul class="profil">',
     '#weight' => -999,
   );
-  
+
   $build['profil'] = array(
     '#type' => 'link',
     '#title' => t('Profil'),
@@ -214,7 +219,7 @@ function green_user_link_menu($username) {
     '#prefix' => '<li>',
     '#suffix' => '</li>',
   );
-    
+
   $build['alimentation'] = array(
     '#type' => 'link',
     '#title' => t('Alimentation'),
@@ -223,7 +228,7 @@ function green_user_link_menu($username) {
     '#prefix' => '<li>',
     '#suffix' => '</li>',
   );
-   
+
   $build['travel'] = array(
     '#type' => 'link',
     '#title' => t('Déplacements'),
@@ -232,12 +237,12 @@ function green_user_link_menu($username) {
     '#prefix' => '<li>',
     '#suffix' => '</li>',
   );
-  
+
   $build['endul'] = array(
     '#markup' => '</ul>',
     '#weight' => -500,
   );
-  
+
   return $build;
 }
 
@@ -246,7 +251,7 @@ function green_user_link_menu($username) {
  */
 function green_user_score($user_name) {
     $userScore = 0;
-    
+
     // Get all the score and sum them
     $scores = module_invoke_all('green_user_score', $user_name );
     foreach($scores as $score) {
@@ -264,7 +269,7 @@ function user_name_load($user_name) {
   $current_user_url =  pathauto_cleanstring($user->name);
   // Replacement of underscors
   $user_name = str_replace('_',' ',$user_name);
-  
+
   // Search the user with the username
   $user_view = user_load_by_name(check_plain($user_name));
   // If the username does not exist

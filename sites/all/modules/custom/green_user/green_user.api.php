@@ -10,9 +10,9 @@
  * Called when the module need to calculate the user score for a module.
  * @return integer
  */
-function hook_green_user_score($user_name) {   
+function hook_green_user_score($user_name) {
   $score = 0;
-  $user = user_load_by_name($user_name); 
+  $user = user_load_by_name($user_name);
   $node_type = 'node_type';
   // Search for an existing module node for the current user.
   $query = new EntityFieldQuery();
@@ -26,7 +26,7 @@ function hook_green_user_score($user_name) {
   if (empty($results['node'])) {
      return false;
   }
-  
+
   else {
     // Load the user's alimentation node.
     $node = node_load(reset($results['node'])->nid);

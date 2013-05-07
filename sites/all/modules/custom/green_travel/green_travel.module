@@ -28,27 +28,28 @@ function green_travel_menu() {
     'access arguments' => array('create travel profile'),
     'file' => 'green_travel.pages.inc',
   );
-  
-  $items['travel/%user_name'] = array(
+
+  $items['profil/%user_name/travel'] = array(
     'type' => MENU_LOCAL_TASK,
+    'weight' => -10,
     'title' => 'Déplacements',
     'page callback' => 'green_travel_page_view',
     'page arguments' => array(1),
     'file' => 'green_travel.pages.inc',
     'access callback' => TRUE,
   );
- 
+
   return $items;
 }
 
-function green_travel_green_user_score($user_name){      
+function green_travel_green_user_score($user_name){
   $user_name = str_replace('_',' ',$user_name);
-  $user = user_load_by_name($user_name); 
-  
+  $user = user_load_by_name($user_name);
+
   if(!$user) {
       return false;
   }
-  
+
   $node_type = 'travel';
   // Search for an existing alimentation for the current user.
   $query = new EntityFieldQuery();
@@ -62,7 +63,7 @@ function green_travel_green_user_score($user_name){
   if (empty($results['node'])) {
      return false;
   }
-  
+
   else {
     // Load the user's alimentation node.
     $node = node_load(reset($results['node'])->nid);
@@ -71,25 +72,25 @@ function green_travel_green_user_score($user_name){
     // Vehicule type field
     if(isset($node->field_type_de_vehicule['und'])) {
         switch($node->field_type_de_vehicule['und'][0]['value']) {
-            case t('Aucun/Vélo') : 
+            case t('Aucun/Vélo') :
                 $score += 30;
                 break;
-            case t('Transports en commun') : 
+            case t('Transports en commun') :
                 $score += 10;
                 break;
-            case t('Scooter') : 
+            case t('Scooter') :
                 $score += 5;
                 break;
-            case t('Moto') : 
+            case t('Moto') :
                 $score += 0;
                 break;
-            case t('Voiture') : 
+            case t('Voiture') :
                 $score += 0;
                 break;
         }
     }
     return $score;
-  
+
 }
 
 /**
@@ -101,17 +102,17 @@ function green_travel_node_view_alter(&$build) {
       $path = current_path();
       $path = drupal_get_path_alias($path);
       $arrayPath = explode('/', $path);
-      $username=$arrayPath[1];      
+      $username=$arrayPath[1];
       // We build the menu for the current username
       $link = green_user_link_menu($username);
-      
+
       // Calculate and display the score
       $score = green_travel_green_user_score($username);
       $build['text'] = array(
       '#markup' => '<p class="score"> Score : ' . $score . '</p>',
       '#weight' => -10,
       );
-      
+
       $build = array_merge($build,$link);
   }
 }
@@ -127,13 +128,13 @@ function green_travel_form_travel_node_form_alter(&$form, &$form_state) {
 /**
  * Change form redirection
  */
-function green_travel_form_travel_node_submit($form, &$form_state) { 
-  global $user; 
+function green_travel_form_travel_node_submit($form, &$form_state) {
+  global $user;
   // Convertion user name string to url with pathauto
   if (module_exists('pathauto')) {
       module_load_include('inc', 'pathauto', 'pathauto');
-      $user_name =  pathauto_cleanstring($user->name);  
-      $form_state['redirect'] = 'travel/'.$user_name; 
+      $user_name =  pathauto_cleanstring($user->name);
+      $form_state['redirect'] = 'travel/'.$user_name;
   }
 }
 
