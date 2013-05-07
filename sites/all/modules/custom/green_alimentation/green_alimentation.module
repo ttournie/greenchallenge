@@ -23,22 +23,24 @@ function green_alimentation_menu() {
   $items['profil/alimentation/edit'] = array(
     'type' => MENU_NORMAL_ITEM,
     'title' => 'Mon Alimentation',
-    'page callback' => 'green_alimentation_page',
+    'page callback' => 'green_global_page',
     'page arguments' => array('alimentation'),
     'access arguments' => array('create alimentation profile'),
-    'file' => 'green_alimentation.pages.inc',
+    'file path' => drupal_get_path('module', 'green_global'),
+    'file' => 'green_global.module',
   );
 
   $items['profil/%user_name/alimentation'] = array(
     'type' => MENU_LOCAL_TASK,
     'weight' => -10,
     'title' => 'Alimentation',
-    'page callback' => 'green_alimentation_page_view',
-    'page arguments' => array(1),
-    'file' => 'green_alimentation.pages.inc',
+    'page callback' => 'green_global_page_view',
+    'page arguments' => array(1, 2),
+    'file path' => drupal_get_path('module', 'green_global'),
+    'file' => 'green_global.module',
     'access callback' => TRUE,
   );
-
+  
   return $items;
 }
 

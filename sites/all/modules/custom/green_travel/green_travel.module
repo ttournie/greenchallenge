@@ -23,19 +23,21 @@ function green_travel_menu() {
   $items['profil/travel/edit'] = array(
     'type' => MENU_NORMAL_ITEM,
     'title' => 'Mes Déplacements',
-    'page callback' => 'green_travel_page',
+    'page callback' => 'green_global_page',
     'page arguments' => array('travel'),
     'access arguments' => array('create travel profile'),
-    'file' => 'green_travel.pages.inc',
+    'file path' => drupal_get_path('module', 'green_global'),
+    'file' => 'green_global.module',
   );
 
   $items['profil/%user_name/travel'] = array(
     'type' => MENU_LOCAL_TASK,
     'weight' => -10,
     'title' => 'Déplacements',
-    'page callback' => 'green_travel_page_view',
-    'page arguments' => array(1),
-    'file' => 'green_travel.pages.inc',
+    'page callback' => 'green_global_page_view',
+    'page arguments' => array(1, 2),
+    'file path' => drupal_get_path('module', 'green_global'),
+    'file' => 'green_global.module',
     'access callback' => TRUE,
   );
 
