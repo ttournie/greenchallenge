@@ -48,9 +48,9 @@ function green_travel_page_view($user) {
       ->propertyCondition('uid', $user->uid)
       ->execute();
 
-  // If the user has no alimentation node yet
+  // If the user has no alimentation node yet.
   if (empty($results['node'])) {
-     return t($user->name.' n\'a pas encore renseigné cette section');
+    return t($user->name . ' n\'a pas encore renseigné cette section');
   }
 
   else {
@@ -59,9 +59,9 @@ function green_travel_page_view($user) {
   }
 
   drupal_set_title('Déplacement');
-  // Return the node's view
+  // Return the node's view.
   module_load_include('inc', 'node', 'node.pages');
   node_view($node);
 
-  return  node_view($node);;
+  return node_view($node);;
 }

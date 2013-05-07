@@ -5,36 +5,38 @@
  */
 
 /**
- * Test if a user already has a badge 
+ * Test if a user already has a badge.
  */
 function green_badge_user_has_badge($user, $badge_name) {
-  $query = db_select('users_badge', 'ub');       
-  $query->join('badge','b','b.id = ub.badge_id');
+  $query = db_select('users_badge', 'ub');
+  $query->join('badge', 'b', 'b.id = ub.badge_id');
   $query->fields('ub')
-    ->condition('b.name', $badge_name , '=')
-    ->condition('user_id', $user->uid , '=');
+    ->condition('b.name', $badge_name, '=')
+    ->condition('user_id', $user->uid, '=');
   $result = $query->execute()
     ->rowCount();
-  
-  if($result == 0) {
-    return false;
-  } else
-    return true;
+
+  if ($result == 0) {
+    return FALSE;
+  }
+  else {
+    return TRUE;
+  }
 }
 
 /**
- * Return all the user badge 
+ * Return all the user badge.
  */
 function green_badge_user_badge($user_name) {
-  $user_name = str_replace('_',' ',$user_name); 
-  // Search the user with the username
+  $user_name = str_replace('_', ' ', $user_name);
+  // Search the user with the username.
   $user = user_load_by_name(check_plain($user_name));
-  // Query to find all the user's badges
+  // Query to find all the user's badges.
   $query = db_select('users_badge', 'ub');
-    
-  $query->join('badge','b','b.id = ub.badge_id');
-  $query->fields('b')    
-    ->condition('user_id', $user->uid , '=');
+
+  $query->join('badge', 'b', 'b.id = ub.badge_id');
+  $query->fields('b')
+    ->condition('user_id', $user->uid, '=');
   $result = $query->execute()->fetchAll();
   return $result;
 }

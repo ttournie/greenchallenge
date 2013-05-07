@@ -9,7 +9,7 @@
  */
 function green_user_block_info() {
   $blocks['account'] = array(
-    'info' => t('Liens d\'access à mon compte'),
+    'info' => t("Liens d'access à mon compte"),
     'status' => TRUE,
     'region' => 'header',
     'visibility' => BLOCK_VISIBILITY_NOTLISTED,
@@ -24,36 +24,38 @@ function green_user_block_info() {
  * This hook generates the contents of the blocks themselves.
  */
 function green_user_block_view($delta = '') {
-  // You have to hide the block when the user is not logged in (In drupal block configuration)
+  // You have to hide the block when the user is not logged in (In drupal block configuration).
   global $user;
-  if(user_is_logged_in($user)) {
-    // Convertion user name string to url with pathauto
+  if (user_is_logged_in($user)) {
+    // Convertion user name string to url with pathauto.
     if (module_exists('pathauto')) {
-        module_load_include('inc', 'pathauto', 'pathauto');
-        $user_name =  pathauto_cleanstring($user->name);
+      module_load_include('inc', 'pathauto', 'pathauto');
+      $user_name = pathauto_cleanstring($user->name);
     }
     switch ($delta) {
-        case 'account':
+      case 'account':
         $block['content'] = theme('account_block', array('username' => $user_name));
         return $block;
-        break;
+
+      break;
+
     }
-  } else {
-    return false;
+  }
+  else {
+    return FALSE;
   }
 
 }
 
 /**
  * Implements hook_block_view_alter().
- *
  */
 function green_user_block_view_alter(&$data, $block) {
-    global $user;
-    // Useful to show the login block everywhere
-    if($block->delta == 'login'){
-        $data['content'] = drupal_get_form('user_login_block');
-    }
+  global $user;
+  // Useful to show the login block everywhere.
+  if ($block->delta == 'login') {
+    $data['content'] = drupal_get_form('user_login_block');
+  }
 }
 
 /**
@@ -72,7 +74,7 @@ function green_user_theme() {
  * Implements hook_form_FORM_ID_alter().
  */
 function green_user_form_user_profile_form_alter(&$form, &$form_state) {
-  // Merge the main profile form to the user form
+  // Merge the main profile form to the user form.
   if (($type = profile2_get_types('main')) && $type->userCategory) {
     if (empty($form_state['profiles'])) {
       $profile = profile2_load_by_user($form['#user'], 'main');
@@ -118,9 +120,9 @@ function green_user_menu() {
  * Implements hook_form_alter().
  */
 function green_user_form_alter(&$form, &$form_state, $form_id) {
-  foreach($form as $field) {
-    if(is_array($field) && isset($field['#group']) && $field['#group'] == 'additional_settings') {
-        $field['#access'] = false;
+  foreach ($form as $field) {
+    if (is_array($field) && isset($field['#group']) && $field['#group'] == 'additional_settings') {
+      $field['#access'] = FALSE;
     }
   }
 }
@@ -129,17 +131,17 @@ function green_user_form_alter(&$form, &$form_state, $form_id) {
  * Implements hook_form_FORM_ID_alter().
  */
 function green_user_form_user_register_form_alter(&$form, &$form_state) {
-  $form['account']['name']['#description'] = t('Les espaces sont autorisés ; la ponctuation n\'est pas autorisée à l\'exception des traits d\'union.');
+  $form['account']['name']['#description'] = t("Les espaces sont autorisés ; la ponctuation n'est pas autorisée à l'exception des traits d'union.");
   $form['#validate'][] = 'green_user_register_form_validate';
 }
 
 /**
- * Username register validation
+ * Username register validation.
  */
 function green_user_register_form_validate($form, &$form_state) {
-    // If the username have a . ou ' charater an error is set
-    if (preg_match("/'|\.|_/",$form_state['values']['name'])) {
-    form_set_error('name', t('Il y a un charactère interdit dans votre nom d\'utilisateur.'));
+  // If the username have a . ou ' charater an error is set.
+  if (preg_match("/'|\.|_/", $form_state['values']['name'])) {
+    form_set_error('name', t("Il y a un charactère interdit dans votre nom d'utilisateur."));
   }
 }
 
@@ -159,124 +161,77 @@ function green_user_menu_alter(&$items) {
  * Implements hook_user_view_alter().
  */
 function green_user_user_view_alter(&$build) {
-  // Deleting history information
+  // Deleting history information.
   if (isset($build['summary'])) {
     unset($build['summary']);
   }
 
   $path = current_path();
   $path = drupal_get_path_alias($path);
-  $arrayPath = explode('/', $path);
-  $username=$arrayPath[1];
+  $array_path = explode('/', $path);
+  $username = $array_path[1];
 
-  $link = green_user_link_menu($username);
   $score = green_user_score($username);
 
   $build['text'] = array(
     '#markup' => '<p class="score"> Score Global : ' . $score . '</p>',
     '#weight' => -10,
-    );
+  );
 
   $build['user_picture']['#title'] = t('user picture');
   $build['div_badge'] = array(
-    '#markup' => '<div class="Badge"><h4>'.t('Badges').'</h4>',
+    '#markup' => '<div class="Badge"><h4>' . t('Badges') . '</h4>',
     '#weight' => -9,
-    );
-  // Load all the user's badges
+  );
+  // Load all the user's badges.
   $result = green_badge_user_badge($username);
-  // Display all the user badges
-  foreach($result as $row){
+  // Display all the user badges.
+  foreach ($result as $row) {
     $build['badge'] = array(
-    '#theme' => 'image',
-    '#path' => drupal_get_path('module', 'green_badge').$row->image,
-    '#weight' => -8,
-    '#alt'=> t($row->name),
+      '#theme' => 'image',
+      '#path' => drupal_get_path('module', 'green_badge') . $row->image,
+      '#weight' => -8,
+      '#alt' => t($row->name),
     );
   }
   $build['undiv_badge'] = array(
     '#markup' => '</div>',
     '#weight' => -7,
   );
-  $build = array_merge($build,$link);
-}
-
-/**
- * Generate the link menu for users
- */
-function green_user_link_menu($username) {
-  $build=array();
-
-  $build['ul'] = array(
-    '#markup' => '<ul class="profil">',
-    '#weight' => -999,
-  );
-
-  $build['profil'] = array(
-    '#type' => 'link',
-    '#title' => t('Profil'),
-    '#href' => 'profil/'.$username,
-    '#weight' => -810,
-    '#prefix' => '<li>',
-    '#suffix' => '</li>',
-  );
-
-  $build['alimentation'] = array(
-    '#type' => 'link',
-    '#title' => t('Alimentation'),
-    '#href' => 'alimentation/'.$username,
-    '#weight' => -800,
-    '#prefix' => '<li>',
-    '#suffix' => '</li>',
-  );
-
-  $build['travel'] = array(
-    '#type' => 'link',
-    '#title' => t('Déplacements'),
-    '#href' => 'travel/'.$username,
-    '#weight' => -750,
-    '#prefix' => '<li>',
-    '#suffix' => '</li>',
-  );
-
-  $build['endul'] = array(
-    '#markup' => '</ul>',
-    '#weight' => -500,
-  );
-
-  return $build;
 }
 
 /*
  * Return the global score of user
  */
 function green_user_score($user_name) {
-    $userScore = 0;
+  $user_score = 0;
 
-    // Get all the score and sum them
-    $scores = module_invoke_all('green_user_score', $user_name );
-    foreach($scores as $score) {
-        $userScore += $score;
-    }
-    return $userScore;
+  // Get all the score and sum them.
+  $scores = module_invoke_all('green_user_score', $user_name);
+  foreach ($scores as $score) {
+    $user_score += $score;
+  }
+  return $user_score;
 }
 
 /**
- * Menu callback; loads a user by username object
+ * Menu callback; loads a user by username object.
  */
 function user_name_load($user_name) {
   global $user;
   module_load_include('inc', 'pathauto', 'pathauto');
-  $current_user_url =  pathauto_cleanstring($user->name);
-  // Replacement of underscors
-  $user_name = str_replace('_',' ',$user_name);
+  $current_user_url = pathauto_cleanstring($user->name);
+  // Replacement of underscors.
+  $user_name = str_replace('_', ' ', $user_name);
 
-  // Search the user with the username
+  // Search the user with the username.
   $user_view = user_load_by_name(check_plain($user_name));
-  // If the username does not exist
-  if(!$user_view) {
+  // If the username does not exist.
+  if (!$user_view) {
     drupal_set_message('l\'utilisateur n\'existe pas', 'error');
-    drupal_goto('profil/'.$current_user_url);
-  } else {
+    drupal_goto('profil/' . $current_user_url);
+  }
+  else {
     return $user_view;
   }
 }

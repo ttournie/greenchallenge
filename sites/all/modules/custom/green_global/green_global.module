@@ -4,10 +4,3 @@
  * @file
  */
 
-
-/**
- * Create the 
- */
-function green_user_form_user_profile_form_alter($username) {
-
-}

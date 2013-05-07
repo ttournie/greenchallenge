@@ -45,13 +45,13 @@ function green_alimentation_menu() {
 /**
  * Implements hook_green_user_score().
  */
-function green_alimentation_green_user_score($user_name){
-  // Replacement of underscors
-  $user_name = str_replace('_',' ',$user_name);
+function green_alimentation_green_user_score($user_name) {
+  // Replacement of underscors.
+  $user_name = str_replace('_', ' ', $user_name);
   $user = user_load_by_name($user_name);
 
-  if(!$user) {
-    return false;
+  if (!$user) {
+    return FALSE;
   }
 
   $node_type = 'alimentation';
@@ -63,9 +63,9 @@ function green_alimentation_green_user_score($user_name){
     ->propertyCondition('uid', $user->uid)
     ->execute();
 
-  // If the user has no alimentation node yet
+  // If the user has no alimentation node yet.
   if (empty($results['node'])) {
-   return false;
+    return FALSE;
   }
 
   else {
@@ -74,36 +74,41 @@ function green_alimentation_green_user_score($user_name){
   }
 
   $score = 0;
-    // Diet type field
-    if(isset($node->field_type_de_regime['und'])) {
-      switch($node->field_type_de_regime['und'][0]['value']) {
-        case 'Végétarien' :
-          $score += 30;
-          break;
-        case 'Végétalien' :
-          $score += 50;
-          break;
-      }
+  // Diet type field.
+  if (isset($node->field_type_de_regime['und'])) {
+    switch ($node->field_type_de_regime['und'][0]['value']) {
+      case 'Végétarien':
+        $score += 30;
+        break;
+
+      case 'Végétalien':
+        $score += 50;
+        break;
     }
-    // Fish consumption
-    if(isset($node->field_conso_poissons['und'])) {
-      switch($node->field_conso_poissons['und'][0]['value']) {
-        case '0' :
-          $score += 20;
-          break;
-        case '1' :
-          $score += 14;
-          break;
-        case '2' :
-          $score += 10;
-          break;
-        case '3' :
-          $score += 6;
-          break;
-        case '4' :
-          $score += 2;
-          break;
-      }
+  }
+  // Fish consumption.
+  if (isset($node->field_conso_poissons['und'])) {
+    switch ($node->field_conso_poissons['und'][0]['value']) {
+      case '0':
+        $score += 20;
+        break;
+
+      case '1':
+        $score += 14;
+        break;
+
+      case '2':
+        $score += 10;
+        break;
+
+      case '3':
+        $score += 6;
+        break;
+
+      case '4':
+        $score += 2;
+        break;
+    }
   }
   return $score;
 }
@@ -112,23 +117,19 @@ function green_alimentation_green_user_score($user_name){
  * Implements hook_user_view_alter().
  */
 function green_alimentation_node_view_alter(&$build) {
-  // Testing the node type
-  if($build['#bundle'] == 'alimentation') {
+  // Testing the node type.
+  if ($build['#bundle'] == 'alimentation') {
     $path = current_path();
     $path = drupal_get_path_alias($path);
-    $arrayPath = explode('/', $path);
-    $username=$arrayPath[1];
+    $array_path = explode('/', $path);
+    $username = $array_path[1];
 
-    // We build the menu for the current username
-    $link = green_user_link_menu($username);
-
-    // Calculate and display the score
+    // Calculate and display the score.
     $score = green_alimentation_green_user_score($username);
     $build['text'] = array(
-    '#markup' => '<p class="score"> Score : ' . $score . '</p>',
-    '#weight' => -10,
+      '#markup' => '<p class="score"> Score : ' . $score . '</p>',
+      '#weight' => -10,
     );
-    $build = array_merge($build,$link);
   }
 }
 
@@ -143,29 +144,29 @@ function green_alimentation_form_alimentation_node_form_alter(&$form, &$form_sta
 }
 
 /**
- * Change form redirection
+ * Change form redirection.
  */
 function green_alimentation_form_alimentation_node_submit($form, &$form_state) {
   global $user;
-  // Convertion user name string to url with pathauto
+  // Convertion user name string to url with pathauto.
   if (module_exists('pathauto')) {
     module_load_include('inc', 'pathauto', 'pathauto');
-    $user_name =  pathauto_cleanstring($user->name);
-    $form_state['redirect'] = 'alimentation/'.$user_name;
+    $user_name = pathauto_cleanstring($user->name);
+    $form_state['redirect'] = 'alimentation/' . $user_name;
   }
 }
 
 
 /**
- * Insert badges in the database when it's necessary
+ * Insert badges in the database when it's necessary.
  */
 function green_alimentation_form_alimentation_node_validate($form, &$form_state) {
   global $user;
-  // Test the field value
-  if($form_state['values']['field_type_de_regime']['und'][0]['value']=='Végétarien') {
+  // Test the field value.
+  if ($form_state['values']['field_type_de_regime']['und'][0]['value'] == 'Végétarien') {
     $badge_name = 'Végétarien';
-    // If the user do not have the badge we give him
-    if(!green_badge_user_has_badge($user, $badge_name)) {
+    // If the user do not have the badge we give him.
+    if (!green_badge_user_has_badge($user, $badge_name)) {
       db_insert('users_badge')
       ->fields(array(
         'badge_id' => 1,
@@ -173,9 +174,10 @@ function green_alimentation_form_alimentation_node_validate($form, &$form_state)
       ))
       ->execute();
     }
-  } else {
-    //We delete the badge if the user change the fied value
-    $sql = "DELETE FROM {users_badge} ub WHERE EXISTS (SELECT b.id FROM {badge} b WHERE ub.badge_id=b.id AND b.name= 'Végétarien') AND ub.user_id=".$user->uid;
+  }
+  else {
+    // We delete the badge if the user change the fied value.
+    $sql = "DELETE FROM {users_badge} ub WHERE EXISTS (SELECT b.id FROM {badge} b WHERE ub.badge_id=b.id AND b.name= 'Végétarien') AND ub.user_id=" . $user->uid;
     db_query($sql)->execute();
   }
 }
