@@ -100,7 +100,6 @@ function green_user_menu() {
   );
 
   $items['profil/%user_name'] = array(
-    'title' => 'Profil',
     'page callback' => 'green_user_page_view',
     'page arguments' => array(1),
     'file' => 'green_user.pages.inc',

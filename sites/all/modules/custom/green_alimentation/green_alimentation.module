@@ -35,12 +35,12 @@ function green_alimentation_menu() {
     'weight' => -10,
     'title' => 'Alimentation',
     'page callback' => 'green_global_page_view',
-    'page arguments' => array(1, 2),
+    'page arguments' => array(1, 2, 'Alimentation'),
     'file path' => drupal_get_path('module', 'green_global'),
     'file' => 'green_global.module',
     'access callback' => TRUE,
   );
-  
+
   return $items;
 }
 

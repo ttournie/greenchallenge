@@ -35,7 +35,7 @@ function green_travel_menu() {
     'weight' => -10,
     'title' => 'Déplacements',
     'page callback' => 'green_global_page_view',
-    'page arguments' => array(1, 2),
+    'page arguments' => array(1, 2, 'Déplacement'),
     'file path' => drupal_get_path('module', 'green_global'),
     'file' => 'green_global.module',
     'access callback' => TRUE,
