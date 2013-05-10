@@ -13,7 +13,6 @@
   display: table-cell;
 }
 .region-header {
-  padding: 45px 25px 48px 0;
   display: table-cell;
 }
 .region-header .block {
@@ -393,4 +392,15 @@ div.messages {
 /* Contextual links */
 a.contextual-links-trigger:hover {
   border-bottom: none;
+}
+
+/* Login block */
+ul.profil {
+  list-style-type: none;
+}
+
+ul.profil li {
+  float: left;
+  margin-right: 10px;
+  font-size: 14px;
 }

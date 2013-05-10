@@ -8,6 +8,7 @@
  * Page callback for page view.
  */
 function green_global_page_view($user, $node_type, $page_title) {
+  drupal_set_title($page_title);
   // Search for an existing alimentation for the current user.
   $query = new EntityFieldQuery();
   $results = $query->entityCondition('entity_type', 'node')
@@ -26,7 +27,6 @@ function green_global_page_view($user, $node_type, $page_title) {
     $node = node_load(reset($results['node'])->nid);
   }
 
-  drupal_set_title($page_title);
   // Return the node's view.
   module_load_include('inc', 'node', 'node.pages');
   node_view($node);
