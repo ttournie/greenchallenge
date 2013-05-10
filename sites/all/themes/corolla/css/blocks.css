@@ -32,7 +32,26 @@
   margin-bottom: 35px;
 }
 .region-header .block {
-  margin-top: 20px;
+    margin-right: 10px;
+    width: 350px;
+}
+.region-inner clearfix div.block-inner {
+    margin: 0px;
+}
+.block-content div.toboggan-login-link-container {
+    text-align: right;
+}
+.user-login-block {
+    float: left;
+}
+
+.user-login-block div.form-item {
+    float: left;
+    margin-right: 10px;
+}
+
+.region-header .block a {
+    font-size: 14px;
 }
 .region-header .block-superfish {
   margin-top: 36px;

@@ -7,13 +7,16 @@
     clear: both;
     display: table;
     width: 100%;
+    margin-top: 30px;
 }
 #branding {
-  padding: 45px 0 48px 25px;
-  display: table-cell;
+    width: 269px;
+    float: left;
 }
 .region-header {
-  display: table-cell;
+    float: left;
+    margin-top: 24px;
+    margin-left: 488px;
 }
 .region-header .block {
   float: right;

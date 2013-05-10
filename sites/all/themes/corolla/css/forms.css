@@ -274,6 +274,7 @@ fieldset#edit-advanced fieldset .fieldset-legend {
 #user-login-form .item-list li {
   list-style: none;
   margin: 0;
+  float: left;
 }
 #user-login-form li.openid-link,
 #user-login li.openid-link {
