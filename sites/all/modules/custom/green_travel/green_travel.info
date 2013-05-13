@@ -1,0 +1,15 @@
+name = Green Travel
+description = Green Travel.
+core = 7.x
+package = Green Project
+php = 5.2.4
+dependencies[] = features
+dependencies[] = green_user
+dependencies[] = list
+dependencies[] = node
+dependencies[] = options
+features[features_api][] = api:1
+features[field_base][] = field_type_de_vehicule
+features[field_instance][] = node-travel-field_type_de_vehicule
+features[node][] = travel
+features_exclude[field][node-travel-field_type_de_vehicule] = node-travel-field_type_de_vehicule

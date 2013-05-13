@@ -1,0 +1,148 @@
+<?php
+/**
+ * @file
+ * Code for the Green Travel feature.
+ */
+
+include_once 'green_travel.features.inc';
+
+/**
+ * @file
+ */
+
+/**
+ * Implements hook_permission().
+ */
+function green_travel_permission() {
+  return array(
+    'create travel profile' => array(
+      'title' => t('Create travel profile'),
+      'description' => t('Allow users to add/modify travel profile.'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_menu().
+ */
+function green_travel_menu() {
+  $items['profil/travel/edit'] = array(
+    'type' => MENU_NORMAL_ITEM,
+    'title' => 'Mes Déplacements',
+    'page callback' => 'green_global_page',
+    'page arguments' => array('travel'),
+    'access arguments' => array('create travel profile'),
+    'file path' => drupal_get_path('module', 'green_global'),
+    'file' => 'green_global.module',
+  );
+
+  $items['profil/%user_name/travel'] = array(
+    'type' => MENU_LOCAL_TASK,
+    'weight' => -10,
+    'title' => 'Déplacements',
+    'page callback' => 'green_global_page_view',
+    'page arguments' => array(1, 2, 'Déplacement'),
+    'file path' => drupal_get_path('module', 'green_global'),
+    'file' => 'green_global.module',
+    'access callback' => TRUE,
+  );
+
+  return $items;
+}
+
+function green_travel_green_user_score($user_name) {
+  $user_name = str_replace('_', ' ', $user_name);
+  $user = user_load_by_name($user_name);
+
+  if (!$user) {
+    return FALSE;
+  }
+
+  $node_type = 'travel';
+  // Search for an existing alimentation for the current user.
+  $query = new EntityFieldQuery();
+  $results = $query->entityCondition('entity_type', 'node')
+      ->entityCondition('bundle', $node_type)
+      ->propertyCondition('status', TRUE)
+      ->propertyCondition('uid', $user->uid)
+      ->execute();
+
+  // If the user has no alimentation node yet.
+  if (empty($results['node'])) {
+    return FALSE;
+  }
+
+  else {
+    // Load the user's alimentation node.
+    $node = node_load(reset($results['node'])->nid);
+  }
+  $score = 0;
+  // Vehicule type field.
+  if (isset($node->field_type_de_vehicule['und'])) {
+    switch ($node->field_type_de_vehicule['und'][0]['value']) {
+      case t('Aucun/Vélo'):
+        $score += 30;
+        break;
+
+      case t('Transports en commun'):
+        $score += 10;
+        break;
+
+      case t('Scooter'):
+        $score += 5;
+        break;
+
+      case t('Moto'):
+        $score += 0;
+        break;
+
+      case t('Voiture'):
+        $score += 0;
+        break;
+    }
+  }
+  return $score;
+}
+
+/**
+ * Implements hook_user_view_alter().
+ */
+function green_travel_node_view_alter(&$build) {
+  // Testing the node type.
+  if ($build['#bundle'] == 'travel') {
+    $path = current_path();
+    $path = drupal_get_path_alias($path);
+    $array_path = explode('/', $path);
+    $username = $array_path[1];
+
+    // Calculate and display the score.
+    $score = green_travel_green_user_score($username);
+    $build['text'] = array(
+      '#markup' => '<p class="score"> Score : ' . $score . '</p>',
+      '#weight' => -10,
+    );
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function green_travel_form_travel_node_form_alter(&$form, &$form_state) {
+  $form_state['redirect'] = 'node/1';
+  $form['actions']['submit']['#submit'][] = 'green_travel_form_travel_node_submit';
+}
+
+/**
+ * Change form redirection.
+ */
+function green_travel_form_travel_node_submit($form, &$form_state) {
+  global $user;
+  // Convertion user name string to url with pathauto.
+  if (module_exists('pathauto')) {
+    module_load_include('inc', 'pathauto', 'pathauto');
+    $user_name = pathauto_cleanstring($user->name);
+    $form_state['redirect'] = 'travel/' . $user_name;
+  }
+}
+
+
