@@ -2,8 +2,15 @@ jQuery(document).ready(function($) {
 	$('.round').each(function(){
 		var $div = $(this);
 		var ratio = $div.data('min')/100;
-		var color = "#83b535";
-
+		if($div.data('min') == 0) {
+			var color = "#EE2626"
+		} else if($div.data('min') > 0 && $div.data('min')<50) {
+			var color = "#EE7626"
+		} else if($div.data('min') > 50 && $div.data('min')<100) {
+			var color = "#E9D120"
+		} else {
+			var color = "#83b535";
+		}
 		var $circle = $('<canvas width="150px" height="150px"/>');
 		var $color = $('<canvas class="color-round" width="150px" height="150px"/>');
 		$div.append($circle);
