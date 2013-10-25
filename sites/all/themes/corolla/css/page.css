@@ -8,15 +8,13 @@
     display: table;
     width: 100%;
     margin-top: 30px;
+    position: relative;
+    margin-bottom: 50px;
 }
 #branding {
-    width: 269px;
-    float: left;
+    position: absolute;
 }
 .region-header {
-    float: left;
-    margin-top: 24px;
-    margin-left: 488px;
 }
 .region-header .block {
   float: right;
@@ -25,10 +23,11 @@
   display: table-cell;
   padding: 0 15px 0 0;
   vertical-align: middle;
+  float:left;
 }
 #branding hgroup {
-  display: table-cell;
   vertical-align: middle;
+  float: left;
 }
 #site-name {
   font-size: 4.5em;
@@ -406,4 +405,24 @@ ul.profil li {
   float: left;
   margin-right: 10px;
   font-size: 14px;
+}
+
+/* round percentage */
+div.round{
+  margin: 50px;
+  width: 150px; height: 150px;
+  position: relative;
+  float:left;
+}
+div.round span.text{
+  position: absolute;
+  top:51px; left:26px;
+  font-size: 35px; text-align: center;
+  width: 100px;
+  border:none; background:none;
+  outline:none;
+}
+div.round canvas{
+  position: absolute;
+  top:0; left:0; right:0; bottom:0;
 }

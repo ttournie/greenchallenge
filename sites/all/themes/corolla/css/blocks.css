@@ -33,7 +33,7 @@
 }
 .region-header .block {
     margin-right: 10px;
-    width: 350px;
+    width: 262px;
 }
 .region-inner clearfix div.block-inner {
     margin: 0px;
@@ -43,10 +43,14 @@
 }
 .user-login-block {
     float: left;
+    font-size: 12px;
+}
+
+.region-header .block li a {
+  font-size: 12px;
 }
 
 .user-login-block div.form-item {
-    float: left;
     margin-right: 10px;
 }
 
