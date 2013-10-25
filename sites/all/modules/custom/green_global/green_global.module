@@ -67,7 +67,7 @@ function green_global_completed($user, $node_type) {
       $percentage = (($completed*100)/$field_count);
     }
   }
-  return $percentage;
+  return (int)$percentage;
 }
 
 /**
