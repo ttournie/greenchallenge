@@ -220,8 +220,8 @@ function user_name_load($user_name) {
   global $user;
   module_load_include('inc', 'pathauto', 'pathauto');
   $current_user_url = pathauto_cleanstring($user->name);
-  // Replacement of underscors.
-  $user_name = str_replace('_', ' ', $user_name);
+  // Replacement pathauto_separator.
+  $user_name = str_replace(variable_get('pathauto_separator'), ' ', $user_name);
 
   // Search the user with the username.
   $user_view = user_load_by_name(check_plain($user_name));

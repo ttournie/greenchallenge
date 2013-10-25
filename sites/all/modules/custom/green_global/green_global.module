@@ -9,7 +9,7 @@
  */
 function green_global_page_view($user, $node_type, $page_title) {
   drupal_set_title($page_title);
-  // Search for an existing alimentation for the current user.
+  // Search for an existing node for the current user.
   $query = new EntityFieldQuery();
   $results = $query->entityCondition('entity_type', 'node')
       ->entityCondition('bundle', $node_type)
@@ -17,7 +17,7 @@ function green_global_page_view($user, $node_type, $page_title) {
       ->propertyCondition('uid', $user->uid)
       ->execute();
 
-  // If the user has no alimentation node yet.
+  // If the user has no node yet.
   if (empty($results['node'])) {
     return t($user->name . ' n\'a pas encore renseigné cette section');
   }
@@ -26,12 +26,48 @@ function green_global_page_view($user, $node_type, $page_title) {
     // Load the user's alimentation node.
     $node = node_load(reset($results['node'])->nid);
   }
-
   // Return the node's view.
   module_load_include('inc', 'node', 'node.pages');
   node_view($node);
 
   return node_view($node);
+}
+
+
+function green_global_completed($user, $node_type) {
+  $completed = 0;
+  $field_count = 0;
+  $percentage = 0;
+  // Search for an existing module node for the current user.
+  $query = new EntityFieldQuery();
+  $results = $query->entityCondition('entity_type', 'node')
+      ->entityCondition('bundle', $node_type)
+      ->propertyCondition('status', TRUE)
+      ->propertyCondition('uid', $user->uid)
+      ->execute();
+
+  // If the user has no node node yet
+  if (empty($results['node'])) {
+     return false;
+  }
+
+  else {
+    // Load the user's alimentation node.
+    $node = node_load(reset($results['node'])->nid);
+    // get all the field of this node
+    $field_count = count(field_info_instances("node",$node_type));
+    node_entity_info();
+    // get non empty field
+    foreach ($node as $key => $field) {
+      if(isset($field['und']) && is_array($field['und']) && !empty($field['und'][0]['value'])) {
+          $completed ++;
+      }
+    }
+    if($field_count>0) {
+      $percentage = (($completed*100)/$field_count);
+    }
+  }
+  return $percentage;
 }
 
 /**

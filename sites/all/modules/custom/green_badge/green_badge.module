@@ -28,7 +28,7 @@ function green_badge_user_has_badge($user, $badge_name) {
  * Return all the user badge.
  */
 function green_badge_user_badge($user_name) {
-  $user_name = str_replace('_', ' ', $user_name);
+  $user_name = str_replace(variable_get('pathauto_separator') , ' ', $user_name);
   // Search the user with the username.
   $user = user_load_by_name(check_plain($user_name));
   // Query to find all the user's badges.

@@ -7,9 +7,9 @@ dependencies[] = date
 files[] = includes/partial_date.views.year_period_handler.inc
 
 
-; Information added by drupal.org packaging script on 2012-07-20
-version = "7.x-1.0-beta1+1-dev"
+; Information added by drupal.org packaging script on 2013-10-01
+version = "7.x-1.0-beta1+2-dev"
 core = "7.x"
 project = "partial_date"
-datestamp = "1342787985"
+datestamp = "1380622309"
 

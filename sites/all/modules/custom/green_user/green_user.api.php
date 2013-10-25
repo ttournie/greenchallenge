@@ -33,3 +33,27 @@ function hook_green_user_score($user_name) {
   }
   return $score;
 }
+
+function hook_green_user_completed($user_name) {
+  $completed = 0;
+  $user = user_load_by_name($user_name);
+  $node_type = 'node_type';
+  // Search for an existing module node for the current user.
+  $query = new EntityFieldQuery();
+  $results = $query->entityCondition('entity_type', 'node')
+      ->entityCondition('bundle', $node_type)
+      ->propertyCondition('status', TRUE)
+      ->propertyCondition('uid', $user->uid)
+      ->execute();
+
+  // If the user has no node node yet
+  if (empty($results['node'])) {
+     return false;
+  }
+
+  else {
+    // Load the user's alimentation node.
+    $node = node_load(reset($results['node'])->nid);
+  }
+  return $completed;
+}

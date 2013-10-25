@@ -138,6 +138,16 @@ function green_alimentation_node_view_alter(&$build) {
       '#markup' => '<p class="score"> Score : ' . $score . '</p>',
       '#weight' => -10,
     );
+
+    // Calculate and display the score.
+    $user = user_name_load($username);
+    $percentage = green_global_completed($user, $build['#bundle']);
+    drupal_add_js(drupal_get_path('module', 'green_global') . '/js/round-percentage.js');
+    $build['percentage'] = array(
+      '#markup' => '<div class="round" data-min="' . $percentage . '"><span class="text">' . $percentage . '</span>
+      </div>',
+      '#weight' => -10,
+    );
   }
 }
 
@@ -146,7 +156,6 @@ function green_alimentation_node_view_alter(&$build) {
  * Implements hook_form_FORM_ID_alter().
  */
 function green_alimentation_form_alimentation_node_form_alter(&$form, &$form_state) {
-  $form_state['redirect'] = 'node/1';
   $form['actions']['submit']['#submit'][] = 'green_alimentation_form_alimentation_node_submit';
   $form['#validate'][] = 'green_alimentation_form_alimentation_node_validate';
 }
@@ -160,7 +169,7 @@ function green_alimentation_form_alimentation_node_submit($form, &$form_state) {
   if (module_exists('pathauto')) {
     module_load_include('inc', 'pathauto', 'pathauto');
     $user_name = pathauto_cleanstring($user->name);
-    $form_state['redirect'] = 'alimentation/' . $user_name;
+    $form_state['redirect'] = '/profil/' . $user_name . '/alimentation';
   }
 }
 
