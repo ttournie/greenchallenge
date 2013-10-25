@@ -2,15 +2,7 @@ jQuery(document).ready(function($) {
 	$('.round').each(function(){
 		var $div = $(this);
 		var ratio = $div.data('min')/100;
-		if($div.data('min') == 0) {
-			var color = "#EE2626"
-		} else if($div.data('min') > 0 && $div.data('min')<50) {
-			var color = "#EE7626"
-		} else if($div.data('min') > 50 && $div.data('min')<100) {
-			var color = "#E9D120"
-		} else {
-			var color = "#83b535";
-		}
+		var color = "#83b535";
 		var $circle = $('<canvas width="150px" height="150px"/>');
 		var $color = $('<canvas class="color-round" width="150px" height="150px"/>');
 		$div.append($circle);
@@ -39,6 +31,16 @@ jQuery(document).ready(function($) {
             	var start_angle = -1/2 * Math.PI;
             	var end_angle = (++step/100)*2*Math.PI - 1/2 * Math.PI;
             }
+
+            if(step <= 1) {
+			var color = "#EE2626"
+			} else if(step > 0 && step<50) {
+				var color = "#EE7626"
+			} else if(step > 50 && step<99) {
+				var color = "#E9D120"
+			} else {
+				var color = "#83b535";
+			}
 
             var ctx = $color[0].getContext('2d');
             ctx.beginPath();
