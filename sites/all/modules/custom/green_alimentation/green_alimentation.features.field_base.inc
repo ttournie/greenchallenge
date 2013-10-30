@@ -10,6 +10,93 @@
 function green_alimentation_field_default_field_bases() {
   $field_bases = array();
 
+  // Exported field_base: 'field_achat_commerce_quitable'
+  $field_bases['field_achat_commerce_quitable'] = array(
+    'active' => 1,
+    'cardinality' => 1,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'field_name' => 'field_achat_commerce_quitable',
+    'foreign keys' => array(),
+    'indexes' => array(
+      'value' => array(
+        0 => 'value',
+      ),
+    ),
+    'locked' => 0,
+    'module' => 'list',
+    'settings' => array(
+      'allowed_values' => array(
+        0 => 'Jamais',
+        1 => 'Parfois',
+        2 => 'Souvent',
+        3 => 'Tout le temps',
+      ),
+      'allowed_values_function' => '',
+      'profile2_private' => FALSE,
+    ),
+    'translatable' => 0,
+    'type' => 'list_integer',
+  );
+
+  // Exported field_base: 'field_achat_de_produit_frais'
+  $field_bases['field_achat_de_produit_frais'] = array(
+    'active' => 1,
+    'cardinality' => 1,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'field_name' => 'field_achat_de_produit_frais',
+    'foreign keys' => array(),
+    'indexes' => array(
+      'value' => array(
+        0 => 'value',
+      ),
+    ),
+    'locked' => 0,
+    'module' => 'list',
+    'settings' => array(
+      'allowed_values' => array(
+        0 => 'Jamais',
+        1 => 'Parfois',
+        2 => 'Souvent',
+        3 => 'Tout le temps',
+      ),
+      'allowed_values_function' => '',
+      'profile2_private' => FALSE,
+    ),
+    'translatable' => 0,
+    'type' => 'list_integer',
+  );
+
+  // Exported field_base: 'field_achat_produits_locaux'
+  $field_bases['field_achat_produits_locaux'] = array(
+    'active' => 1,
+    'cardinality' => 1,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'field_name' => 'field_achat_produits_locaux',
+    'foreign keys' => array(),
+    'indexes' => array(
+      'value' => array(
+        0 => 'value',
+      ),
+    ),
+    'locked' => 0,
+    'module' => 'list',
+    'settings' => array(
+      'allowed_values' => array(
+        0 => 'Jamais',
+        1 => 'Parfois',
+        2 => 'Souvent',
+        3 => 'Tout le temps',
+      ),
+      'allowed_values_function' => '',
+      'profile2_private' => FALSE,
+    ),
+    'translatable' => 0,
+    'type' => 'list_integer',
+  );
+
   // Exported field_base: 'field_conso_poissons'
   $field_bases['field_conso_poissons'] = array(
     'active' => 1,
@@ -41,6 +128,64 @@ function green_alimentation_field_default_field_bases() {
         12 => 12,
         13 => 13,
         14 => 14,
+      ),
+      'allowed_values_function' => '',
+      'profile2_private' => FALSE,
+    ),
+    'translatable' => 0,
+    'type' => 'list_integer',
+  );
+
+  // Exported field_base: 'field_j_utilise_des_paniers_ou_d'
+  $field_bases['field_j_utilise_des_paniers_ou_d'] = array(
+    'active' => 1,
+    'cardinality' => 1,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'field_name' => 'field_j_utilise_des_paniers_ou_d',
+    'foreign keys' => array(),
+    'indexes' => array(
+      'value' => array(
+        0 => 'value',
+      ),
+    ),
+    'locked' => 0,
+    'module' => 'list',
+    'settings' => array(
+      'allowed_values' => array(
+        0 => 'Jamais',
+        1 => 'Parfois',
+        2 => 'Souvent',
+        3 => 'Tout le temps',
+      ),
+      'allowed_values_function' => '',
+      'profile2_private' => FALSE,
+    ),
+    'translatable' => 0,
+    'type' => 'list_integer',
+  );
+
+  // Exported field_base: 'field_je_bois_l_eau_du_robinet'
+  $field_bases['field_je_bois_l_eau_du_robinet'] = array(
+    'active' => 1,
+    'cardinality' => 1,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'field_name' => 'field_je_bois_l_eau_du_robinet',
+    'foreign keys' => array(),
+    'indexes' => array(
+      'value' => array(
+        0 => 'value',
+      ),
+    ),
+    'locked' => 0,
+    'module' => 'list',
+    'settings' => array(
+      'allowed_values' => array(
+        0 => 'Jamais',
+        1 => 'Parfois',
+        2 => 'Souvent',
+        3 => 'Tout le temps',
       ),
       'allowed_values_function' => '',
       'profile2_private' => FALSE,

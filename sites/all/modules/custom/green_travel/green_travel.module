@@ -121,7 +121,6 @@ function green_travel_node_view_alter(&$build) {
       '#markup' => '<p class="score"> Score : ' . $score . '</p>',
       '#weight' => -10,
     );
-
         // Calculate and display the score.
     $user = user_name_load($username);
     $percentage = green_global_completed($user, $build['#bundle']);
